@@ -16,10 +16,10 @@ contract CrowdsaleFactory {
   event CrowdsaleCreated(address _from, Crowdsale addr);
   event PropertyAdded(CrowdsaleProperty property);
 
-  function createCrowdsale(uint256 _cap, address[] _whitelist) public returns(Crowdsale) { //uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, uint _cap, address[] _whitelist
+  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _cap, address[] _whitelist) public returns(Crowdsale) { // uint256 _rate, address _wallet, uint _cap, address[] _whitelist
 
-    uint256 _startTime = now;
-    uint256 _endTime = now + 10000;
+    _startTime = now;//_startTime;
+    _endTime = now + 1000; //_endTime;
     uint256 _rate = 1;
     address _wallet = 0x11;
     //uint _cap = 2;

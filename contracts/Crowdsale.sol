@@ -120,14 +120,14 @@ contract Crowdsale {
 
   // @return true if crowdsale event has ended
   function hasEnded() public view returns (bool) {
-    bool allConditions = true;
+    bool allConditions = false;
     for(uint i = 0; i < properties.length; i++) {
-      allConditions = allConditions && properties[i].hasEnded(this);
+      allConditions = allConditions || properties[i].hasEnded(this);
     }
-    return now > endTime && allConditions;
+    return now > endTime || allConditions;
   }
 
-  //added method here
+  //add method here
   /*function finalize() onlyOwner public {
     for(uint i = 0; i < properties.length; i++) {
       properties.finalize(this);

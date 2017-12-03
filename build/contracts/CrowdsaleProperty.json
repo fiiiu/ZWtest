@@ -48,18 +48,18 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b61015f8061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063239e883a14610051578063270ae041146100a2575b600080fd5b341561005c57600080fd5b610088600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061011b565b604051808215151515815260200191505060405180910390f35b34156100ad57600080fd5b610101600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610126565b604051808215151515815260200191505060405180910390f35b600060019050919050565b60006001905093925050505600a165627a7a72305820bdfc4e54a8f575d48d66fb81f6661830b4cd0c04202132212a417d28c8400d9c0029",
-  "deployedBytecode": "0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063239e883a14610051578063270ae041146100a2575b600080fd5b341561005c57600080fd5b610088600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061011b565b604051808215151515815260200191505060405180910390f35b34156100ad57600080fd5b610101600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610126565b604051808215151515815260200191505060405180910390f35b600060019050919050565b60006001905093925050505600a165627a7a72305820bdfc4e54a8f575d48d66fb81f6661830b4cd0c04202132212a417d28c8400d9c0029",
-  "sourceMap": "109:418:3:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "109:418:3:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;446:79;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;323:120;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;446:79;503:4;518;511:11;;446:79;;;:::o;323:120::-;421:4;436;429:11;;323:120;;;;;:::o",
-  "source": "pragma solidity ^0.4.18;\n\nimport 'zeppelin-solidity/contracts/math/SafeMath.sol';\nimport './Crowdsale.sol';\n\ncontract CrowdsaleProperty {\n  using SafeMath for uint256;\n\n  //The defaults allow for not implementing dummy methods in derived classes\n  //The calls are properly directed to children when called from Crowdsale\n  function validPurchase(Crowdsale caller, address beneficiary, uint256 value) public view returns (bool) { return true; }\n  function hasEnded(Crowdsale caller) public view returns (bool) { return true; }\n}\n",
-  "sourcePath": "/Users/alejo/Google Drive/Projects/ZWtest/composite-crowdsale/contracts/CrowdsaleProperty.sol",
+  "bytecode": "0x6060604052341561000f57600080fd5b61015e8061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063239e883a14610051578063270ae041146100a2575b600080fd5b341561005c57600080fd5b610088600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061011b565b604051808215151515815260200191505060405180910390f35b34156100ad57600080fd5b610101600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610125565b604051808215151515815260200191505060405180910390f35b6000809050919050565b60006001905093925050505600a165627a7a72305820cd132fbd0e92f4adbc9b9e0c4986625ecc5950102831e2d7ea3431bd81b7ff150029",
+  "deployedBytecode": "0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063239e883a14610051578063270ae041146100a2575b600080fd5b341561005c57600080fd5b610088600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061011b565b604051808215151515815260200191505060405180910390f35b34156100ad57600080fd5b610101600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803573ffffffffffffffffffffffffffffffffffffffff16906020019091908035906020019091905050610125565b604051808215151515815260200191505060405180910390f35b6000809050919050565b60006001905093925050505600a165627a7a72305820cd132fbd0e92f4adbc9b9e0c4986625ecc5950102831e2d7ea3431bd81b7ff150029",
+  "sourceMap": "109:419:3:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "109:419:3:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;446:80;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;323:120;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;446:80;503:4;518:5;511:12;;446:80;;;:::o;323:120::-;421:4;436;429:11;;323:120;;;;;:::o",
+  "source": "pragma solidity ^0.4.18;\n\nimport 'zeppelin-solidity/contracts/math/SafeMath.sol';\nimport './Crowdsale.sol';\n\ncontract CrowdsaleProperty {\n  using SafeMath for uint256;\n\n  //The defaults allow for not implementing dummy methods in derived classes\n  //The calls are properly directed to children when called from Crowdsale\n  function validPurchase(Crowdsale caller, address beneficiary, uint256 value) public view returns (bool) { return true; }\n  function hasEnded(Crowdsale caller) public view returns (bool) { return false; }\n}\n",
+  "sourcePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CrowdsaleProperty.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/Users/alejo/Google Drive/Projects/ZWtest/composite-crowdsale/contracts/CrowdsaleProperty.sol",
+      "absolutePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CrowdsaleProperty.sol",
       "exportedSymbols": {
         "CrowdsaleProperty": [
-          511
+          515
         ]
       }
     },
@@ -73,37 +73,37 @@
             ".18"
           ]
         },
-        "id": 481,
+        "id": 485,
         "name": "PragmaDirective",
         "src": "0:24:3"
       },
       {
         "attributes": {
-          "SourceUnit": 785,
+          "SourceUnit": 789,
           "absolutePath": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "file": "zeppelin-solidity/contracts/math/SafeMath.sol",
-          "scope": 512,
+          "scope": 516,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 482,
+        "id": 486,
         "name": "ImportDirective",
         "src": "26:55:3"
       },
       {
         "attributes": {
           "SourceUnit": 366,
-          "absolutePath": "/Users/alejo/Google Drive/Projects/ZWtest/composite-crowdsale/contracts/Crowdsale.sol",
+          "absolutePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/Crowdsale.sol",
           "file": "./Crowdsale.sol",
-          "scope": 512,
+          "scope": 516,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 483,
+        "id": 487,
         "name": "ImportDirective",
         "src": "82:25:3"
       },
@@ -119,10 +119,10 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            511
+            515
           ],
           "name": "CrowdsaleProperty",
-          "scope": 512
+          "scope": 516
         },
         "children": [
           {
@@ -131,10 +131,10 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 784,
+                  "referencedDeclaration": 788,
                   "type": "library SafeMath"
                 },
-                "id": 484,
+                "id": 488,
                 "name": "UserDefinedTypeName",
                 "src": "146:8:3"
               },
@@ -143,12 +143,12 @@
                   "name": "uint256",
                   "type": "uint256"
                 },
-                "id": 485,
+                "id": 489,
                 "name": "ElementaryTypeName",
                 "src": "159:7:3"
               }
             ],
-            "id": 486,
+            "id": 490,
             "name": "UsingForDirective",
             "src": "140:27:3"
           },
@@ -162,7 +162,7 @@
               ],
               "name": "validPurchase",
               "payable": false,
-              "scope": 511,
+              "scope": 515,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -174,7 +174,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "caller",
-                      "scope": 500,
+                      "scope": 504,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract Crowdsale",
@@ -189,12 +189,12 @@
                           "referencedDeclaration": 365,
                           "type": "contract Crowdsale"
                         },
-                        "id": 487,
+                        "id": 491,
                         "name": "UserDefinedTypeName",
                         "src": "346:9:3"
                       }
                     ],
-                    "id": 488,
+                    "id": 492,
                     "name": "VariableDeclaration",
                     "src": "346:16:3"
                   },
@@ -202,7 +202,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "beneficiary",
-                      "scope": 500,
+                      "scope": 504,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -215,12 +215,12 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 489,
+                        "id": 493,
                         "name": "ElementaryTypeName",
                         "src": "364:7:3"
                       }
                     ],
-                    "id": 490,
+                    "id": 494,
                     "name": "VariableDeclaration",
                     "src": "364:19:3"
                   },
@@ -228,7 +228,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "value",
-                      "scope": 500,
+                      "scope": 504,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -241,17 +241,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 491,
+                        "id": 495,
                         "name": "ElementaryTypeName",
                         "src": "385:7:3"
                       }
                     ],
-                    "id": 492,
+                    "id": 496,
                     "name": "VariableDeclaration",
                     "src": "385:13:3"
                   }
                 ],
-                "id": 493,
+                "id": 497,
                 "name": "ParameterList",
                 "src": "345:54:3"
               },
@@ -261,7 +261,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 500,
+                      "scope": 504,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -274,17 +274,17 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 494,
+                        "id": 498,
                         "name": "ElementaryTypeName",
                         "src": "421:4:3"
                       }
                     ],
-                    "id": 495,
+                    "id": 499,
                     "name": "VariableDeclaration",
                     "src": "421:4:3"
                   }
                 ],
-                "id": 496,
+                "id": 500,
                 "name": "ParameterList",
                 "src": "420:6:3"
               },
@@ -292,7 +292,7 @@
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 496
+                      "functionReturnParameters": 500
                     },
                     "children": [
                       {
@@ -308,22 +308,22 @@
                           "type": "bool",
                           "value": "true"
                         },
-                        "id": 497,
+                        "id": 501,
                         "name": "Literal",
                         "src": "436:4:3"
                       }
                     ],
-                    "id": 498,
+                    "id": 502,
                     "name": "Return",
                     "src": "429:11:3"
                   }
                 ],
-                "id": 499,
+                "id": 503,
                 "name": "Block",
                 "src": "427:16:3"
               }
             ],
-            "id": 500,
+            "id": 504,
             "name": "FunctionDefinition",
             "src": "323:120:3"
           },
@@ -337,7 +337,7 @@
               ],
               "name": "hasEnded",
               "payable": false,
-              "scope": 511,
+              "scope": 515,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -349,7 +349,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "caller",
-                      "scope": 510,
+                      "scope": 514,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "contract Crowdsale",
@@ -364,17 +364,17 @@
                           "referencedDeclaration": 365,
                           "type": "contract Crowdsale"
                         },
-                        "id": 501,
+                        "id": 505,
                         "name": "UserDefinedTypeName",
                         "src": "464:9:3"
                       }
                     ],
-                    "id": 502,
+                    "id": 506,
                     "name": "VariableDeclaration",
                     "src": "464:16:3"
                   }
                 ],
-                "id": 503,
+                "id": 507,
                 "name": "ParameterList",
                 "src": "463:18:3"
               },
@@ -384,7 +384,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 510,
+                      "scope": 514,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -397,17 +397,17 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 504,
+                        "id": 508,
                         "name": "ElementaryTypeName",
                         "src": "503:4:3"
                       }
                     ],
-                    "id": 505,
+                    "id": 509,
                     "name": "VariableDeclaration",
                     "src": "503:4:3"
                   }
                 ],
-                "id": 506,
+                "id": 510,
                 "name": "ParameterList",
                 "src": "502:6:3"
               },
@@ -415,13 +415,13 @@
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 506
+                      "functionReturnParameters": 510
                     },
                     "children": [
                       {
                         "attributes": {
                           "argumentTypes": null,
-                          "hexvalue": "74727565",
+                          "hexvalue": "66616c7365",
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": true,
@@ -429,36 +429,36 @@
                           "subdenomination": null,
                           "token": "bool",
                           "type": "bool",
-                          "value": "true"
+                          "value": "false"
                         },
-                        "id": 507,
+                        "id": 511,
                         "name": "Literal",
-                        "src": "518:4:3"
+                        "src": "518:5:3"
                       }
                     ],
-                    "id": 508,
+                    "id": 512,
                     "name": "Return",
-                    "src": "511:11:3"
+                    "src": "511:12:3"
                   }
                 ],
-                "id": 509,
+                "id": 513,
                 "name": "Block",
-                "src": "509:16:3"
+                "src": "509:17:3"
               }
             ],
-            "id": 510,
+            "id": 514,
             "name": "FunctionDefinition",
-            "src": "446:79:3"
+            "src": "446:80:3"
           }
         ],
-        "id": 511,
+        "id": 515,
         "name": "ContractDefinition",
-        "src": "109:418:3"
+        "src": "109:419:3"
       }
     ],
-    "id": 512,
+    "id": 516,
     "name": "SourceUnit",
-    "src": "0:528:3"
+    "src": "0:529:3"
   },
   "compiler": {
     "name": "solc",
@@ -466,5 +466,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-03T20:33:05.040Z"
+  "updatedAt": "2017-12-03T21:21:10.207Z"
 }

@@ -1,21 +1,13 @@
 # TODO
 
 ## Design
-- Common interface for properties (by inheritance, will solve circularity in references?)
-- More properties
-- Crowdsale Factory: creation event vs. vector of crowdsales??
+- Crowdsale Factory: creation event vs. vector of crowdsales? Now implemented with event.
 
 ## Environment
-- Implement tests
-
-## Things
-- Who keeps track of property values? Like cap value.
-
-## Standing@
-- uint _cap_ not working in constructor? at least not doing anything!!
-- am I getting the address or not?? no, the txn.
-- wait for mining? is this it?
-- test access crowdsale, hairy.
+- Implement and polish tests: why are arguments to createCrowdsale failing?
 
 ## Questions
-- whitelist for beneficiaires or purchase makers?
+- Whitelist for beneficiaires or purchase makers? Now implemented for beneficiaries.
+- FinalizableProperty issues:
+  - onlyOwner decorator: trouble with multiple inheritance!
+  - Need to pass a function to Factory for finalize! How to do this/desirable? Pass a contract address and execute this? But then need to pass all data, reasonable?
