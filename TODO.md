@@ -4,7 +4,7 @@
 - Crowdsale Factory: creation event vs. vector of crowdsales? Now implemented with event.
 
 ## Environment
-- Implement and polish tests: why are arguments to createCrowdsale failing?
+- Implement and polish tests.
 
 ## Questions
 - Whitelist for beneficiaires or purchase makers? Now implemented for beneficiaries.

@@ -18,13 +18,6 @@ contract CrowdsaleFactory {
 
   function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, uint256 _cap, address[] _whitelist) public returns(Crowdsale) {
 
-    //_startTime = now;
-    //_endTime = now + 1000;
-    //uint256 _rate = 1;
-    //address _wallet = 0x11;
-    //uint _cap = 2;
-    //address[] _whitelist = [address(msg.sender)];
-
     Crowdsale crowdsale = new Crowdsale(_startTime, _endTime, _rate, _wallet);
 
     if(_cap > 0){

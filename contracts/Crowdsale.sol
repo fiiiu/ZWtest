@@ -58,12 +58,6 @@ contract Crowdsale {
     rate = _rate;
     wallet = _wallet;
     properties.length = 0;
-
-    /*if(_cap > 0){
-      //newProperty = new CappedProperty(_cap);
-      properties.push(new CappedProperty(_cap));
-    }*/
-
   }
 
   function addProperty(CrowdsaleProperty property) public {
@@ -127,7 +121,7 @@ contract Crowdsale {
     return now > endTime || allConditions;
   }
 
-  //add method here
+  //add method here for FinalizableProperty
   /*function finalize() onlyOwner public {
     for(uint i = 0; i < properties.length; i++) {
       properties.finalize(this);
