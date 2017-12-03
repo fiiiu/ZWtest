@@ -90,13 +90,15 @@ const Crowdsale = artifacts.require('Crowdsale');
 //test hasEnded
 var amountToBuy = 14;
 var cap = 14;
-const startTime = Date.now();
-const endTime = startTime + 10000;
+const startTime = Date.now()/1000;
+const endTime = startTime + 100000;
+const rate = 1;
+const wallet = 0x11;
 
 contract("CrowdsaleFactory", function(accounts) {
  it('should end crowdsale', function() {
    return CrowdsaleFactory.deployed().then(function(instance) {
-     return instance.createCrowdsale(startTime, endTime, cap, [accounts[1]]);
+     return instance.createCrowdsale(startTime, endTime, rate, wallet, cap, [accounts[1]]);
    }).then(function(result) {
      console.log('w');
      var crowdsale;

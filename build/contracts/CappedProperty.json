@@ -104,7 +104,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 789,
+          "SourceUnit": 775,
           "absolutePath": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "file": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "scope": 65,
@@ -119,7 +119,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 516,
+          "SourceUnit": 502,
           "absolutePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CrowdsaleProperty.sol",
           "file": "./CrowdsaleProperty.sol",
           "scope": 65,
@@ -135,14 +135,14 @@
       {
         "attributes": {
           "contractDependencies": [
-            515
+            501
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
             64,
-            515
+            501
           ],
           "name": "CappedProperty",
           "scope": 65
@@ -159,7 +159,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "CrowdsaleProperty",
-                  "referencedDeclaration": 515,
+                  "referencedDeclaration": 501,
                   "type": "contract CrowdsaleProperty"
                 },
                 "id": 4,
@@ -177,7 +177,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 788,
+                  "referencedDeclaration": 774,
                   "type": "library SafeMath"
                 },
                 "id": 6,
@@ -359,7 +359,7 @@
               "payable": false,
               "scope": 64,
               "stateMutability": "view",
-              "superFunction": 504,
+              "superFunction": 490,
               "visibility": "public"
             },
             "children": [
@@ -561,7 +561,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 787,
+                                  "referencedDeclaration": 773,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -715,7 +715,7 @@
               "payable": false,
               "scope": 64,
               "stateMutability": "view",
-              "superFunction": 514,
+              "superFunction": 500,
               "visibility": "public"
             },
             "children": [
@@ -967,5 +967,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-03T21:21:10.200Z"
+  "updatedAt": "2017-12-03T21:45:57.189Z"
 }

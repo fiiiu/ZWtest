@@ -233,7 +233,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 789,
+          "SourceUnit": 775,
           "absolutePath": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "file": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "scope": 366,
@@ -248,7 +248,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 1098,
+          "SourceUnit": 1084,
           "absolutePath": "zeppelin-solidity/contracts/token/MintableToken.sol",
           "file": "zeppelin-solidity/contracts/token/MintableToken.sol",
           "scope": 366,
@@ -263,7 +263,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 516,
+          "SourceUnit": 502,
           "absolutePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CrowdsaleProperty.sol",
           "file": "./CrowdsaleProperty.sol",
           "scope": 366,
@@ -297,7 +297,7 @@
             null
           ],
           "contractDependencies": [
-            1097
+            1083
           ],
           "contractKind": "contract",
           "documentation": "@title Crowdsale\n@dev Crowdsale is a base contract for managing a token crowdsale.\nCrowdsales have a start and end timestamps, where investors can make\ntoken purchases and the crowdsale will assign them tokens based\non a token per ETH rate. Funds collected are forwarded to a wallet\nas they arrive.",
@@ -315,7 +315,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 788,
+                  "referencedDeclaration": 774,
                   "type": "library SafeMath"
                 },
                 "id": 71,
@@ -352,7 +352,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "MintableToken",
-                  "referencedDeclaration": 1097,
+                  "referencedDeclaration": 1083,
                   "type": "contract MintableToken"
                 },
                 "id": 74,
@@ -642,7 +642,7 @@
                     "attributes": {
                       "contractScope": null,
                       "name": "CrowdsaleProperty",
-                      "referencedDeclaration": 515,
+                      "referencedDeclaration": 501,
                       "type": "contract CrowdsaleProperty"
                     },
                     "id": 96,
@@ -827,7 +827,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1358,
+                              "referencedDeclaration": 1344,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -870,7 +870,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1357,
+                                  "referencedDeclaration": 1343,
                                   "type": "uint256",
                                   "value": "now"
                                 },
@@ -921,7 +921,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1358,
+                              "referencedDeclaration": 1344,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1015,7 +1015,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1358,
+                              "referencedDeclaration": 1344,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1112,7 +1112,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1358,
+                              "referencedDeclaration": 1344,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -1615,7 +1615,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "CrowdsaleProperty",
-                          "referencedDeclaration": 515,
+                          "referencedDeclaration": 501,
                           "type": "contract CrowdsaleProperty"
                         },
                         "id": 164,
@@ -1666,7 +1666,7 @@
                             "attributes": {
                               "argumentTypes": [
                                 {
-                                  "typeIdentifier": "t_contract$_CrowdsaleProperty_$515",
+                                  "typeIdentifier": "t_contract$_CrowdsaleProperty_$501",
                                   "typeString": "contract CrowdsaleProperty"
                                 }
                               ],
@@ -1777,7 +1777,7 @@
                         "attributes": {
                           "contractScope": null,
                           "name": "MintableToken",
-                          "referencedDeclaration": 1097,
+                          "referencedDeclaration": 1083,
                           "type": "contract MintableToken"
                         },
                         "id": 177,
@@ -1835,7 +1835,7 @@
                                 "attributes": {
                                   "contractScope": null,
                                   "name": "MintableToken",
-                                  "referencedDeclaration": 1097,
+                                  "referencedDeclaration": 1083,
                                   "type": "contract MintableToken"
                                 },
                                 "id": 180,
@@ -1961,7 +1961,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1355,
+                                  "referencedDeclaration": 1341,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2084,7 +2084,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1358,
+                              "referencedDeclaration": 1344,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -2220,7 +2220,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1358,
+                              "referencedDeclaration": 1344,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
@@ -2342,7 +2342,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 1355,
+                              "referencedDeclaration": 1341,
                               "type": "msg",
                               "value": "msg"
                             },
@@ -2421,7 +2421,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "mul",
-                              "referencedDeclaration": 725,
+                              "referencedDeclaration": 711,
                               "type": "function (uint256,uint256) pure returns (uint256)"
                             },
                             "children": [
@@ -2523,7 +2523,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 787,
+                                  "referencedDeclaration": 773,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -2609,7 +2609,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "mint",
-                              "referencedDeclaration": 1077,
+                              "referencedDeclaration": 1063,
                               "type": "function (address,uint256) external returns (bool)"
                             },
                             "children": [
@@ -2736,7 +2736,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1355,
+                                  "referencedDeclaration": 1341,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -2968,7 +2968,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1355,
+                                  "referencedDeclaration": 1341,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -3154,7 +3154,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1357,
+                                  "referencedDeclaration": 1343,
                                   "type": "uint256",
                                   "value": "now"
                                 },
@@ -3202,7 +3202,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1357,
+                                  "referencedDeclaration": 1343,
                                   "type": "uint256",
                                   "value": "now"
                                 },
@@ -3305,7 +3305,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1355,
+                                  "referencedDeclaration": 1341,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -3654,7 +3654,7 @@
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "member_name": "validPurchase",
-                                              "referencedDeclaration": 504,
+                                              "referencedDeclaration": 490,
                                               "type": "function (contract Crowdsale,address,uint256) view external returns (bool)"
                                             },
                                             "children": [
@@ -3712,7 +3712,7 @@
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 1380,
+                                              "referencedDeclaration": 1366,
                                               "type": "contract Crowdsale",
                                               "value": "this"
                                             },
@@ -3752,7 +3752,7 @@
                                                   "overloadedDeclarations": [
                                                     null
                                                   ],
-                                                  "referencedDeclaration": 1355,
+                                                  "referencedDeclaration": 1341,
                                                   "type": "msg",
                                                   "value": "msg"
                                                 },
@@ -4260,7 +4260,7 @@
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "member_name": "hasEnded",
-                                              "referencedDeclaration": 514,
+                                              "referencedDeclaration": 500,
                                               "type": "function (contract Crowdsale) view external returns (bool)"
                                             },
                                             "children": [
@@ -4318,7 +4318,7 @@
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 1380,
+                                              "referencedDeclaration": 1366,
                                               "type": "contract Crowdsale",
                                               "value": "this"
                                             },
@@ -4397,7 +4397,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1357,
+                                  "referencedDeclaration": 1343,
                                   "type": "uint256",
                                   "value": "now"
                                 },
@@ -4474,5 +4474,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-03T21:21:10.203Z"
+  "updatedAt": "2017-12-03T21:45:57.207Z"
 }
