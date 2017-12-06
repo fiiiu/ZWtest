@@ -12,19 +12,23 @@ contract WhitelistedProperty is ValidationProperty{
   address[] public whitelist;
 
   function WhitelistedProperty(address[] _whitelist) public {
-   whitelist = _whitelist;
+
+    whitelist = _whitelist;
   }
 
   //this one needed internal -> public
-  function validPurchase(Crowdsale caller, address beneficiary, uint256 value) public view returns (bool) {
-     bool authorizedBuyer = false;
-     //This can probably be improved with a mapping, without traversing the list.
-     for(uint i = 0; i < whitelist.length; i++){
-       if(beneficiary == whitelist[i]){
-         authorizedBuyer = true;
-       }
-     }
-   return authorizedBuyer;
-   }
+  function validPurchase(address purchaser, uint256 value) public view returns (bool) {
+    return isWhitelisted(purchaser);
+  }
+
+  function isWhitelisted(address who) public view returns (bool) {
+    bool _whitelisted = false;
+    for(uint i = 0; i < whitelist.length; i++){
+      if(who == whitelist[i]){
+        _whitelisted = true;
+      }
+    }
+    return _whitelisted;
+  }
 
 }

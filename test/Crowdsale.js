@@ -44,19 +44,19 @@ contract('Capped Crowdsale', function(accounts) {
     const endTime = startTime + 100000;
     const rate = 1;
     const wallet = 0x11;
-    const cap = 43;
+    const cap = 42;
     var property;
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
     property = await CappedProperty.new(cap);
-    await  crowdsale.addValidationProperty(property.address); //not this! prop, property also don't work! DO I NEED TO WORK WITH ADDRESSES?
+    await  crowdsale.addValidationProperty(property.address); 
   });
 
 
   describe('accepting payments', function () {
     const investor = accounts[0];
     const purchaser = accounts[1];
-    const value1 = 42;//new BigNumber(42);
-    const value2 = 44;//new BigNumber(44);
+    const value1 = 41;
+    const value2 = 43;
 
     it('should accept direct payments below cap', async function () {
       await crowdsale.send(value1).should.be.fulfilled;
@@ -87,27 +87,28 @@ contract('Whitelisted Crowdsale', function(accounts) {
     const endTime = startTime + 100000;
     const rate = 1;
     const wallet = 0x11;
-    const whitelist = [accounts[0]];
+    const whitelist = [accounts[1]];
     var property;
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
     property = await WhitelistedProperty.new(whitelist);
-    await  crowdsale.addValidationProperty(property.address); //not this! prop, property also don't work! DO I NEED TO WORK WITH ADDRESSES?
+    await  crowdsale.addValidationProperty(property.address);
   });
 
 
   describe('accepting payments', function () {
-    const authorized = accounts[0];
-    const unauthorized = accounts[1];
-    const value1 = 42;
+    const authorized = accounts[1];
+    const unauthorized = accounts[2];
+    const value = 42;
 
-    it('should accept payments from whitelisted', async function () {
-      //await crowdsale.send(value1).should.be.fulfilled;
-      await crowdsale.buyTokens(authorized, { value: value1, from: authorized }).should.be.fulfilled;
+    it('should accept payments from whitelisted (with whichever beneficiaries)', async function () {
+      await crowdsale.buyTokens(authorized, { value: value, from: authorized }).should.be.fulfilled;
+      await crowdsale.buyTokens(unauthorized, { value: value, from: authorized }).should.be.fulfilled;
     });
 
-    it('should reject payments from not whitelisted', async function () {
-      //await crowdsale.send(value2).should.be.rejected;
-      await crowdsale.buyTokens(unauthorized, { value: value1, from: unauthorized }).should.be.rejected;
+    it('should reject payments from not whitelisted (with whichever beneficiaries)', async function () {
+      await crowdsale.send(value).should.be.rejected; // send() goes from accounts[0]
+      await crowdsale.buyTokens(unauthorized, { value: value, from: unauthorized }).should.be.rejected;
+      await crowdsale.buyTokens(authorized, { value: value, from: unauthorized }).should.be.rejected;
     });
 
 

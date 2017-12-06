@@ -13,14 +13,16 @@ contract CappedProperty is ValidationProperty{
   }
 
   //this one needed internal -> public
-  function validPurchase(Crowdsale caller, address beneficiary, uint256 value) public view returns (bool) {
-   bool withinCap = caller.weiRaised().add(value) <= cap;
-   return withinCap;
+  function validPurchase(address purchaser, uint256 value) public view returns (bool) {
+    Crowdsale caller = Crowdsale(msg.sender);
+    bool withinCap = caller.weiRaised().add(value) <= cap;
+    return withinCap;
   }
 
-  function hasEnded(Crowdsale caller) public view returns (bool) {
-   bool capReached = caller.weiRaised() >= cap;
-   return capReached;
+  function hasEnded() public view returns (bool) {
+    Crowdsale caller = Crowdsale(msg.sender);
+    bool capReached = caller.weiRaised() >= cap;
+    return capReached;
   }
 
 }

@@ -84,7 +84,7 @@ contract Crowdsale {
   // low level token purchase function
   function buyTokens(address beneficiary) public payable {
     require(beneficiary != address(0));
-    require(validPurchase(beneficiary)); //need beneficiary here for whitelisting
+    require(validPurchase()); // no beneficiary, whitelisting purchaser
 
     uint256 weiAmount = msg.value;
 
@@ -107,12 +107,12 @@ contract Crowdsale {
   }
 
   // @return true if the transaction can buy tokens
-  function validPurchase(address beneficiary) internal view returns (bool) {
+  function validPurchase() internal view returns (bool) {
     bool withinPeriod = now >= startTime && now <= endTime;
     bool nonZeroPurchase = msg.value != 0;
     bool allConditions = true;
     for(uint i = 0; i < validationProperties.length; i++) {
-      allConditions = allConditions && validationProperties[i].validPurchase(this, beneficiary, msg.value);
+      allConditions = allConditions && validationProperties[i].validPurchase(msg.sender, msg.value);
     }
     return withinPeriod && nonZeroPurchase && allConditions;
   }
@@ -121,7 +121,7 @@ contract Crowdsale {
   function hasEnded() public view returns (bool) {
     bool allConditions = false;
     for(uint i = 0; i < validationProperties.length; i++) {
-      allConditions = allConditions || validationProperties[i].hasEnded(this);
+      allConditions = allConditions || validationProperties[i].hasEnded();
     }
     return now > endTime || allConditions;
   }
@@ -129,7 +129,7 @@ contract Crowdsale {
   // Finalize if any finalizableProperties
   function finalize() public {
     for(uint i = 0; i < finalizationProperties.length; i++) {
-      finalizationProperties[i].finalize(this); //but Crowdsale is not owner! will fail!
+      finalizationProperties[i].finalize(); //but Crowdsale is not owner! will fail!
     }
   }
 

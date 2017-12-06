@@ -9,6 +9,6 @@ contract ValidationProperty is CrowdsaleProperty {
 
   //The defaults allow for not implementing dummy methods in derived classes
   //The calls are properly directed to children when called from Crowdsale
-  function validPurchase(Crowdsale caller, address beneficiary, uint256 value) public view returns (bool) { return true; }
-  function hasEnded(Crowdsale caller) public view returns (bool) { return false; }
+  function validPurchase(address beneficiary, uint256 value) public view returns (bool) { return true; }
+  function hasEnded() public view returns (bool) { return false; }
 }
