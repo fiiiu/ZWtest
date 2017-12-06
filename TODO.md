@@ -13,3 +13,6 @@
   - onlyOwner modifier: Who owns stuff?! Should declare some owner somewhere and pass ownership around? at Crowdsale?
 - Security: anyone can add properties to Crowdsale! Enforce ending with cap, etc.. Should we use Ownable? Same for finalization..
 - Overloading createCrowdsale failed! Compiles, runs with minimum # of args, but not with more!
+- Testing: one for factory, one for each contract type? Or a BIG one?
+- Async calls, example in mocha docs looks like I can do them sequentially, yet failing...
+- .. but maybe because I can't use contracts as arguments from outside?! I'm guessing this..

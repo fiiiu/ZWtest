@@ -23,13 +23,13 @@ contract CrowdsaleFactory {
 
     if(_cap > 0){
       CappedProperty capped = new CappedProperty(_cap);
-      crowdsale.addProperty(capped);
+      crowdsale.addValidationProperty(capped);
       PropertyAdded(capped);
     }
 
     if(_whitelist.length > 0){
       WhitelistedProperty whitelisted = new WhitelistedProperty(_whitelist);
-      crowdsale.addProperty(whitelisted);
+      crowdsale.addValidationProperty(whitelisted);
       PropertyAdded(whitelisted);
     }
 

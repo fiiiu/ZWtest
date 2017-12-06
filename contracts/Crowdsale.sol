@@ -61,7 +61,7 @@ contract Crowdsale {
     finalizationProperties.length = 0;
   }
 
-  function addProperty(ValidationProperty property) public {
+  function addValidationProperty(ValidationProperty property) public {
     validationProperties.push(property);
   }
 
