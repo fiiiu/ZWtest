@@ -2,15 +2,14 @@
 
 ## Design
 - Crowdsale Factory: creation event vs. vector of crowdsales? Now implemented with event.
+- Whitelist for beneficiaires or purchase makers? Now implemented for beneficiaries.
+- See Questions for FinalizationProperty implementation. Alternatives: Pass a contract address? Does this make sense at all?
 
 ## Environment
 - Implement and polish tests.
 
-## Questions
-- Whitelist for beneficiaires or purchase makers? Now implemented for beneficiaries.
-- FinalizableProperty issues:
-  - onlyOwner decorator: trouble with multiple inheritance!
-  - Need to pass a function to Factory for finalize! How to do this/desirable? Pass a contract address and execute this? But then need to pass all data, reasonable?
-  - New approach with separate finalization properties.. Still need a method: inherit a property from this and then manually add through Factory? Strange. Plus.. who owns stuff?! Should declare some owner somewhere and pass ownership around?
-- Security: anyone can add properties to Crowdsale! Enforce ending with cap, etc.. Should we use Ownable? Same for finalizing..
+## Questions/Issues
+- FinalizationProperty. Implemented like: client inherits a property from this and then is added through Factory (weird). Issues:
+  - onlyOwner modifier: Who owns stuff?! Should declare some owner somewhere and pass ownership around? at Crowdsale?
+- Security: anyone can add properties to Crowdsale! Enforce ending with cap, etc.. Should we use Ownable? Same for finalization..
 - Overloading createCrowdsale failed! Compiles, runs with minimum # of args, but not with more!
