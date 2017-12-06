@@ -1,9 +1,9 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
-import './CrowdsaleProperty.sol';
+import './ValidationProperty.sol';
 
-contract CappedProperty is CrowdsaleProperty{
+contract CappedProperty is ValidationProperty{
   using SafeMath for uint256;
 
   uint256 public cap;

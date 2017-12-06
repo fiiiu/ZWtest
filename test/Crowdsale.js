@@ -98,7 +98,7 @@ const wallet = 0x11;
 contract("CrowdsaleFactory", function(accounts) {
  it('should end crowdsale', function() {
    return CrowdsaleFactory.deployed().then(function(instance) {
-     return instance.createCrowdsale(startTime, endTime, rate, wallet, cap, [accounts[1]]);
+     return instance.createCrowdsale(startTime, endTime, rate, wallet, cap, [accounts[1]], []);
    }).then(function(result) {
      console.log('w');
      var crowdsale;

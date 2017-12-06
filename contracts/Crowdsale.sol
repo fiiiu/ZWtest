@@ -3,9 +3,8 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/token/MintableToken.sol';
-import './CrowdsaleProperty.sol';
-import './CappedProperty.sol';
-
+import './ValidationProperty.sol';
+import './FinalizationProperty.sol';
 
 /**
  * @title Crowdsale
@@ -44,7 +43,8 @@ contract Crowdsale {
    */
   event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
-  CrowdsaleProperty[] public properties;
+  ValidationProperty[] public validationProperties;
+  FinalizationProperty[] public finalizationProperties;
 
   function Crowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet) public {
     require(_startTime >= now);
@@ -57,11 +57,16 @@ contract Crowdsale {
     endTime = _endTime;
     rate = _rate;
     wallet = _wallet;
-    properties.length = 0;
+    validationProperties.length = 0;
+    finalizationProperties.length = 0;
   }
 
-  function addProperty(CrowdsaleProperty property) public {
-    properties.push(property);
+  function addProperty(ValidationProperty property) public {
+    validationProperties.push(property);
+  }
+
+  function addFinalizationProperty(FinalizationProperty property) public {
+    finalizationProperties.push(property);
   }
 
   // creates the token to be sold.
@@ -106,8 +111,8 @@ contract Crowdsale {
     bool withinPeriod = now >= startTime && now <= endTime;
     bool nonZeroPurchase = msg.value != 0;
     bool allConditions = true;
-    for(uint i = 0; i < properties.length; i++) {
-      allConditions = allConditions && properties[i].validPurchase(this, beneficiary, msg.value);
+    for(uint i = 0; i < validationProperties.length; i++) {
+      allConditions = allConditions && validationProperties[i].validPurchase(this, beneficiary, msg.value);
     }
     return withinPeriod && nonZeroPurchase && allConditions;
   }
@@ -115,18 +120,18 @@ contract Crowdsale {
   // @return true if crowdsale event has ended
   function hasEnded() public view returns (bool) {
     bool allConditions = false;
-    for(uint i = 0; i < properties.length; i++) {
-      allConditions = allConditions || properties[i].hasEnded(this);
+    for(uint i = 0; i < validationProperties.length; i++) {
+      allConditions = allConditions || validationProperties[i].hasEnded(this);
     }
     return now > endTime || allConditions;
   }
 
-  //add method here for FinalizableProperty
-  /*function finalize() onlyOwner public {
-    for(uint i = 0; i < properties.length; i++) {
-      properties.finalize(this);
+  // Finalize if any finalizableProperties
+  function finalize() public {
+    for(uint i = 0; i < finalizationProperties.length; i++) {
+      finalizationProperties[i].finalize(this); //but Crowdsale is not owner! will fail!
     }
-  }*/
+  }
 
 
 }

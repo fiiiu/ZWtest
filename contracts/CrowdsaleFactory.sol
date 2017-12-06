@@ -6,19 +6,20 @@ import 'zeppelin-solidity/contracts/token/MintableToken.sol';
 import './CrowdsaleProperty.sol';
 import './CappedProperty.sol';
 import './WhitelistedProperty.sol';
+import './FinalizationProperty.sol';
 import './Crowdsale.sol';
 
 
 contract CrowdsaleFactory {
   using SafeMath for uint256;
 
-  //address[] public crowdsales; //Alternative
   event CrowdsaleCreated(address _from, Crowdsale addr);
   event PropertyAdded(CrowdsaleProperty property);
 
-  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, uint256 _cap, address[] _whitelist) public returns(Crowdsale) {
+  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, uint256 _cap, address[] _whitelist, FinalizationProperty[] _finalizationProperties) public returns(Crowdsale) {
 
     Crowdsale crowdsale = new Crowdsale(_startTime, _endTime, _rate, _wallet);
+    CrowdsaleCreated(msg.sender, crowdsale);
 
     if(_cap > 0){
       CappedProperty capped = new CappedProperty(_cap);
@@ -32,14 +33,14 @@ contract CrowdsaleFactory {
       PropertyAdded(whitelisted);
     }
 
-    //crowdsales.push(crowdsale); //Alternative
-    CrowdsaleCreated(msg.sender, crowdsale);
+    if(_finalizationProperties.length > 0){
+      for(uint i = 0; i < _finalizationProperties.length; i++) {
+        crowdsale.addFinalizationProperty(_finalizationProperties[i]);
+        PropertyAdded(_finalizationProperties[i]);
+      }
+    }
+
     return crowdsale;
   }
-
-  /* Alternative
-    function getCrowdsaleAddressAtIndex(uint i) constant returns(address c) {
-    return crowdsales[i];
-  }*/
 
 }
