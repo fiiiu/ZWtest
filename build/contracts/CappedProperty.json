@@ -67,7 +67,7 @@
   "bytecode": "0x6060604052341561000f57600080fd5b6040516020806102ef8339810160405280805190602001909190505080600081905550506102ad806100426000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632a6033bd1461005c578063355274ea146100b6578063ecb70fb7146100df575b600080fd5b341561006757600080fd5b61009c600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061010c565b604051808215151515815260200191505060405180910390f35b34156100c157600080fd5b6100c96101bf565b6040518082815260200191505060405180910390f35b34156100ea57600080fd5b6100f26101c5565b604051808215151515815260200191505060405180910390f35b60008060003391506000546101b0858473ffffffffffffffffffffffffffffffffffffffff16634042b66f6000604051602001526040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401602060405180830381600087803b151561018757600080fd5b6102c65a03f1151561019857600080fd5b5050506040518051905061026390919063ffffffff16565b11159050809250505092915050565b60005481565b60008060003391506000548273ffffffffffffffffffffffffffffffffffffffff16634042b66f6000604051602001526040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401602060405180830381600087803b151561023c57600080fd5b6102c65a03f1151561024d57600080fd5b5050506040518051905010159050809250505090565b600080828401905083811015151561027757fe5b80915050929150505600a165627a7a723058204104a03f2d1d90e82f814954cb63f44debe38369aa806833b00a009031770fdc0029",
   "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632a6033bd1461005c578063355274ea146100b6578063ecb70fb7146100df575b600080fd5b341561006757600080fd5b61009c600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061010c565b604051808215151515815260200191505060405180910390f35b34156100c157600080fd5b6100c96101bf565b6040518082815260200191505060405180910390f35b34156100ea57600080fd5b6100f26101c5565b604051808215151515815260200191505060405180910390f35b60008060003391506000546101b0858473ffffffffffffffffffffffffffffffffffffffff16634042b66f6000604051602001526040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401602060405180830381600087803b151561018757600080fd5b6102c65a03f1151561019857600080fd5b5050506040518051905061026390919063ffffffff16565b11159050809250505092915050565b60005481565b60008060003391506000548273ffffffffffffffffffffffffffffffffffffffff16634042b66f6000604051602001526040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401602060405180830381600087803b151561023c57600080fd5b6102c65a03f1151561024d57600080fd5b5050506040518051905010159050809250505090565b600080828401905083811015151561027757fe5b80915050929150505600a165627a7a723058204104a03f2d1d90e82f814954cb63f44debe38369aa806833b00a009031770fdc0029",
   "sourceMap": "118:604:0:-;;;221:65;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;277:4;271:3;:10;;;;221:65;118:604;;;;;;",
-  "deployedSourceMap": "118:604:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;329:216;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;198:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;549:170;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;329:216;407:4;419:16;465:14;448:10;419:40;;515:3;;482:29;505:5;482:6;:16;;;:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:22;;:29;;;;:::i;:::-;:36;;465:53;;531:9;524:16;;329:216;;;;;;:::o;198:18::-;;;;:::o;549:170::-;590:4;602:16;648:15;631:10;602:40;;688:3;;666:6;:16;;;:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:25;;648:43;;704:10;697:17;;549:170;;;:::o;698:129:5:-;756:7;771:9;787:1;783;:5;771:17;;806:1;801;:6;;794:14;;;;;;821:1;814:8;;698:129;;;;;:::o",
+  "deployedSourceMap": "118:604:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;329:216;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;198:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;549:170;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;329:216;407:4;419:16;465:14;448:10;419:40;;515:3;;482:29;505:5;482:6;:16;;;:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:22;;:29;;;;:::i;:::-;:36;;465:53;;531:9;524:16;;329:216;;;;;;:::o;198:18::-;;;;:::o;549:170::-;590:4;602:16;648:15;631:10;602:40;;688:3;;666:6;:16;;;:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:25;;648:43;;704:10;697:17;;549:170;;;:::o;698:129:8:-;756:7;771:9;787:1;783;:5;771:17;;806:1;801;:6;;794:14;;;;;;821:1;814:8;;698:129;;;;;:::o",
   "source": "pragma solidity ^0.4.18;\n\nimport 'zeppelin-solidity/contracts/math/SafeMath.sol';\nimport './ValidationProperty.sol';\n\ncontract CappedProperty is ValidationProperty{\n  using SafeMath for uint256;\n\n  uint256 public cap;\n\n  function CappedProperty(uint256 _cap) public {\n   cap = _cap;\n  }\n\n  //this one needed internal -> public\n  function validPurchase(address purchaser, uint256 value) public view returns (bool) {\n    Crowdsale caller = Crowdsale(msg.sender);\n    bool withinCap = caller.weiRaised().add(value) <= cap;\n    return withinCap;\n  }\n\n  function hasEnded() public view returns (bool) {\n    Crowdsale caller = Crowdsale(msg.sender);\n    bool capReached = caller.weiRaised() >= cap;\n    return capReached;\n  }\n\n}\n",
   "sourcePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CappedProperty.sol",
   "ast": {
@@ -95,7 +95,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 600,
+          "SourceUnit": 874,
           "absolutePath": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "file": "zeppelin-solidity/contracts/math/SafeMath.sol",
           "scope": 75,
@@ -110,7 +110,7 @@
       },
       {
         "attributes": {
-          "SourceUnit": 502,
+          "SourceUnit": 700,
           "absolutePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/ValidationProperty.sol",
           "file": "./ValidationProperty.sol",
           "scope": 75,
@@ -126,16 +126,16 @@
       {
         "attributes": {
           "contractDependencies": [
-            418,
-            501
+            559,
+            699
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
             74,
-            501,
-            418
+            699,
+            559
           ],
           "name": "CappedProperty",
           "scope": 75
@@ -152,7 +152,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ValidationProperty",
-                  "referencedDeclaration": 501,
+                  "referencedDeclaration": 699,
                   "type": "contract ValidationProperty"
                 },
                 "id": 4,
@@ -170,7 +170,7 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "SafeMath",
-                  "referencedDeclaration": 599,
+                  "referencedDeclaration": 873,
                   "type": "library SafeMath"
                 },
                 "id": 6,
@@ -352,7 +352,7 @@
               "payable": false,
               "scope": 74,
               "stateMutability": "view",
-              "superFunction": 492,
+              "superFunction": 690,
               "visibility": "public"
             },
             "children": [
@@ -537,7 +537,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1166,
+                                  "referencedDeclaration": 1440,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -636,7 +636,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "add",
-                                  "referencedDeclaration": 598,
+                                  "referencedDeclaration": 872,
                                   "type": "function (uint256,uint256) pure returns (uint256)"
                                 },
                                 "children": [
@@ -790,7 +790,7 @@
               "payable": false,
               "scope": 74,
               "stateMutability": "view",
-              "superFunction": 500,
+              "superFunction": 698,
               "visibility": "public"
             },
             "children": [
@@ -927,7 +927,7 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 1166,
+                                  "referencedDeclaration": 1440,
                                   "type": "msg",
                                   "value": "msg"
                                 },
@@ -1128,5 +1128,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-06T21:19:52.378Z"
+  "updatedAt": "2017-12-07T00:30:10.223Z"
 }

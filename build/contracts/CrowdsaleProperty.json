@@ -3,8 +3,8 @@
   "abi": [],
   "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a7230582082d76657646a332c45c2b4bf0b8e1f7639fafab56f3fca1c7f16fbf709460b6a0029",
   "deployedBytecode": "0x6060604052600080fd00a165627a7a7230582082d76657646a332c45c2b4bf0b8e1f7639fafab56f3fca1c7f16fbf709460b6a0029",
-  "sourceMap": "26:31:2:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "26:31:2:-;;;;;",
+  "sourceMap": "26:31:3:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "26:31:3:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\ncontract CrowdsaleProperty {\n\n}\n",
   "sourcePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CrowdsaleProperty.sol",
   "ast": {
@@ -12,7 +12,7 @@
       "absolutePath": "/Users/alejo/Projects/Crypto/ZWtest/contracts/CrowdsaleProperty.sol",
       "exportedSymbols": {
         "CrowdsaleProperty": [
-          418
+          559
         ]
       }
     },
@@ -26,9 +26,9 @@
             ".18"
           ]
         },
-        "id": 417,
+        "id": 558,
         "name": "PragmaDirective",
-        "src": "0:24:2"
+        "src": "0:24:3"
       },
       {
         "attributes": {
@@ -42,22 +42,22 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            418
+            559
           ],
           "name": "CrowdsaleProperty",
           "nodes": [
             null
           ],
-          "scope": 419
+          "scope": 560
         },
-        "id": 418,
+        "id": 559,
         "name": "ContractDefinition",
-        "src": "26:31:2"
+        "src": "26:31:3"
       }
     ],
-    "id": 419,
+    "id": 560,
     "name": "SourceUnit",
-    "src": "0:58:2"
+    "src": "0:58:3"
   },
   "compiler": {
     "name": "solc",
@@ -65,5 +65,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-06T21:19:52.380Z"
+  "updatedAt": "2017-12-07T00:30:10.231Z"
 }

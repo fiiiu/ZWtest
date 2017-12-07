@@ -1,4 +1,4 @@
-import { increaseTimeTo, duration } from 'zeppelin-solidity/test/helpers/increaseTime';
+import increaseTimeTo from './helpers/increaseTime';
 
 require('chai')
   .use(require('chai-as-promised'))
@@ -13,14 +13,14 @@ contract('Finalizable Crowdsale', function(accounts) {
   var crowdsale;
   const rate = 1;
   const wallet = 0x11;
-  var property;
+  var afterEndTime;
 
   beforeEach(async function() {
     const startTime = Date.now()/1000;
     const endTime = startTime + 100000;
-    const afterEndTime = endTime + 1000;
+    afterEndTime = endTime + 1000;
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
-    property = await FinalizationProperty.new();
+    var property = await FinalizationProperty.new();
     await crowdsale.addFinalizationProperty(property.address);
   });
 
@@ -31,7 +31,7 @@ contract('Finalizable Crowdsale', function(accounts) {
       await crowdsale.finalize().should.be.rejected;
     });
 
-    it('should succed if has ended', async function () {
+    it('should succeed if has ended', async function () {
       await increaseTimeTo(afterEndTime);
       await crowdsale.finalize().should.be.fulfilled;
     });

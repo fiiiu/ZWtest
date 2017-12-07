@@ -13,13 +13,12 @@ contract('Whitelisted Crowdsale', function(accounts) {
   const rate = 1;
   const wallet = 0x11;
   const whitelist = [accounts[1]];
-  var property;
-
+  
   beforeEach(async function() {
     const startTime = Date.now()/1000;
     const endTime = startTime + 100000;
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
-    property = await WhitelistedProperty.new(whitelist);
+    var property = await WhitelistedProperty.new(whitelist);
     await crowdsale.addValidationProperty(property.address);
   });
 
