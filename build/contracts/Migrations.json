@@ -816,12 +816,12 @@
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {
-    "1512606621191": {
+    "1512771049384": {
       "events": {},
       "links": {},
-      "address": "0x809d36614c41ef5258865b5da5593a7dd0cfa8c3"
+      "address": "0x0f5ea0a652e851678ebf77b69484bfcd31f9459b"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-07T00:30:25.677Z"
+  "updatedAt": "2017-12-08T22:11:10.433Z"
 }

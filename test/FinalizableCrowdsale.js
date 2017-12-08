@@ -1,40 +1,67 @@
-import increaseTimeTo from './helpers/increaseTime';
+//Tests taken from zeppelin contracts, edited for composite
 
-require('chai')
+import {advanceBlock} from './helpers/advanceToBlock'
+import {increaseTimeTo, duration} from './helpers/increaseTime'
+import latestTime from './helpers/latestTime'
+import EVMRevert from './helpers/EVMRevert'
+
+const BigNumber = web3.BigNumber
+
+const should = require('chai')
   .use(require('chai-as-promised'))
-  //.use(require('chai-bignumber')(BigNumber))
-  .should();
+  .use(require('chai-bignumber')(BigNumber))
+  .should()
 
 const Crowdsale = artifacts.require('Crowdsale');
 const FinalizationProperty = artifacts.require('FinalizationProperty');
 
-contract('Finalizable Crowdsale', function(accounts) {
-
+contract('FinalizableCrowdsale', function ([_, owner, wallet, thirdparty]) {
+  const rate = new BigNumber(1000);
   var crowdsale;
-  const rate = 1;
-  const wallet = 0x11;
+  var startTime;
+  var endTime;
   var afterEndTime;
 
-  beforeEach(async function() {
-    const startTime = Date.now()/1000;
-    const endTime = startTime + 100000;
-    afterEndTime = endTime + 1000;
+  before(async function() {
+    //Advance to the next block to correctly read time in the solidity "now" function interpreted by testrpc
+    await advanceBlock()
+  })
+
+  beforeEach(async function () {
+    startTime = latestTime() + duration.weeks(1);
+    endTime =   startTime + duration.weeks(1);
+    afterEndTime = endTime + duration.seconds(1);
+
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
     var property = await FinalizationProperty.new();
     await crowdsale.addFinalizationProperty(property.address);
-  });
+  })
 
+  it('cannot be finalized before ending', async function () {
+    await crowdsale.finalize({from: owner}).should.be.rejectedWith(EVMRevert)
+  })
 
-  describe('finalization routine', function () {
+  it('cannot be finalized by third party after ending', async function () {
+    await increaseTimeTo(afterEndTime)
+    await crowdsale.finalize({from: thirdparty}).should.be.rejectedWith(EVMRevert)
+  })
 
-    it('should fail if has not ended', async function () {
-      await crowdsale.finalize().should.be.rejected;
-    });
+  it('can be finalized by owner after ending', async function () {
+    await increaseTimeTo(afterEndTime)
+    await crowdsale.finalize({from: owner}).should.be.fulfilled
+  })
 
-    it('should succeed if has ended', async function () {
-      await increaseTimeTo(afterEndTime);
-      await crowdsale.finalize().should.be.fulfilled;
-    });
+  it('cannot be finalized twice', async function () {
+    await increaseTimeTo(afterEndTime)
+    await crowdsale.finalize({from: owner})
+    await crowdsale.finalize({from: owner}).should.be.rejectedWith(EVMRevert)
+  })
 
-  });
-});
+  it('logs finalized', async function () {
+    await increaseTimeTo(afterEndTime)
+    const {logs} = await crowdsale.finalize({from: owner})
+    const event = logs.find(e => e.event === 'Finalized')
+    should.exist(event)
+  })
+
+})

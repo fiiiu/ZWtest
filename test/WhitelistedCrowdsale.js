@@ -1,7 +1,9 @@
+import { increaseTimeTo, duration } from './helpers/increaseTime';
+import { advanceBlock } from './helpers/advanceToBlock';
+import latestTime from './helpers/latestTime';
 
 require('chai')
   .use(require('chai-as-promised'))
-  //.use(require('chai-bignumber')(BigNumber))
   .should();
 
 const Crowdsale = artifacts.require('Crowdsale');
@@ -13,10 +15,21 @@ contract('Whitelisted Crowdsale', function(accounts) {
   const rate = 1;
   const wallet = 0x11;
   const whitelist = [accounts[1]];
-  
+
+  var startTime;
+  var endTime;
+  var afterEndTime;
+
+  before(async function() {
+    //Advance to the next block to correctly read time in the solidity "now" function interpreted by testrpc
+    await advanceBlock()
+  })
+
   beforeEach(async function() {
-    const startTime = Date.now()/1000;
-    const endTime = startTime + 100000;
+    startTime = latestTime() + duration.weeks(1);
+    endTime =   startTime + duration.weeks(1);
+    afterEndTime = endTime + duration.seconds(1);
+
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
     var property = await WhitelistedProperty.new(whitelist);
     await crowdsale.addValidationProperty(property.address);
@@ -27,6 +40,10 @@ contract('Whitelisted Crowdsale', function(accounts) {
     const authorized = accounts[1];
     const unauthorized = accounts[2];
     const value = 42;
+
+    beforeEach(async function () {
+      await increaseTimeTo(startTime);
+    });
 
     it('should accept payments from whitelisted (with whichever beneficiaries)', async function () {
       await crowdsale.buyTokens(authorized, { value: value, from: authorized }).should.be.fulfilled;
