@@ -9,11 +9,10 @@ require('chai')
 const CrowdsaleFactory = artifacts.require('CrowdsaleFactory');
 const FinalizationProperty = artifacts.require('FinalizationProperty');
 
-contract('CrowdsaleFactory', function(accounts) {
+contract('CrowdsaleFactory', function([_, wallet, authorized]) {
 
   var factory;
   const rate = 1;
-  const wallet = 0x11;
   var crowdsale;
 
   var startTime;
@@ -30,7 +29,7 @@ contract('CrowdsaleFactory', function(accounts) {
 
   describe('creating crowdsales', function () {
     var cap = 42;
-    var whitelist = [accounts[1]];
+    var whitelist = [authorized];
 
     beforeEach(async function () {
       startTime = latestTime() + duration.weeks(1);
@@ -42,17 +41,17 @@ contract('CrowdsaleFactory', function(accounts) {
     });
 
     it('should create capped crowdsale', async function () {
-      await factory.createCrowdsale(startTime, endTime, rate, 0x12, cap, [], []).should.be.fulfilled;
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, cap, [], []).should.be.fulfilled;
     });
 
     it('should create whitelisted crowdsale', async function () {
-      await factory.createCrowdsale(startTime, endTime, rate, 0x13, 0, whitelist, []).should.be.fulfilled;
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, 0, whitelist, []).should.be.fulfilled;
     });
 
     it('should create finalizable crowdsale', async function () {
       var finalization = await FinalizationProperty.new();
       var properties = [finalization.address];
-      await factory.createCrowdsale(startTime, endTime, rate, wallet, 0x14, [], properties).should.be.fulfilled;
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, 0, [], properties).should.be.fulfilled;
     });
   });
 });

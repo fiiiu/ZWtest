@@ -40,6 +40,7 @@ contract CrowdsaleFactory {
       }
     }
 
+    crowdsale.transferOwnership(msg.sender);
     return crowdsale;
   }
 

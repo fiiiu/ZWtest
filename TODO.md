@@ -13,5 +13,6 @@
 - learn how to use openZeppelin helpers.. internal imports failing (I solved imports at my project level with babel etc., but can't reproduce this, installing libraries and so on.). solved copypasting :-\
 - tests
 - real crowdsale
+- I need to test ownership transfer from Factory!
 
 ## NOW

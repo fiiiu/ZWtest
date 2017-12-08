@@ -3,6 +3,7 @@ pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/token/MintableToken.sol';
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './ValidationProperty.sol';
 import './FinalizationProperty.sol';
 
@@ -15,7 +16,7 @@ import './FinalizationProperty.sol';
  * as they arrive.
  */
 
-contract Crowdsale {
+contract Crowdsale is Ownable {
   using SafeMath for uint256;
 
   // The token being sold
@@ -61,11 +62,11 @@ contract Crowdsale {
     finalizationProperties.length = 0;
   }
 
-  function addValidationProperty(ValidationProperty property) public {
+  function addValidationProperty(ValidationProperty property) public onlyOwner {
     validationProperties.push(property);
   }
 
-  function addFinalizationProperty(FinalizationProperty property) public {
+  function addFinalizationProperty(FinalizationProperty property) public onlyOwner {
     finalizationProperties.push(property);
   }
 
@@ -127,9 +128,9 @@ contract Crowdsale {
   }
 
   // Finalize if any finalizableProperties
-  function finalize() public {
+  function finalize() public onlyOwner {
     for(uint i = 0; i < finalizationProperties.length; i++) {
-      finalizationProperties[i].finalize(); //but Crowdsale is not owner! will fail!
+      finalizationProperties[i].finalize();
     }
   }
 

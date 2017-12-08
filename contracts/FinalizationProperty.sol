@@ -15,8 +15,7 @@ contract FinalizationProperty is CrowdsaleProperty {
     * @dev Must be called after crowdsale ends, to do some extra finalization
     * work. Calls the contract's finalization function.
     */
-    //change to cast msg.sender + add onlyOwner
-   function finalize() public { //removed onlyOwner decorator, Crowdsale is not owner! will fail!
+   function finalize() public {
      require(!isFinalized);
      Crowdsale caller = Crowdsale(msg.sender);
      require(caller.hasEnded());

@@ -9,12 +9,11 @@ require('chai')
 const Crowdsale = artifacts.require('Crowdsale');
 const WhitelistedProperty = artifacts.require('WhitelistedProperty');
 
-contract('Whitelisted Crowdsale', function(accounts) {
+contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]) {
 
   var crowdsale;
   const rate = 1;
-  const wallet = 0x11;
-  const whitelist = [accounts[1]];
+  const whitelist = [authorized];
 
   var startTime;
   var endTime;
@@ -37,8 +36,6 @@ contract('Whitelisted Crowdsale', function(accounts) {
 
 
   describe('accepting payments', function () {
-    const authorized = accounts[1];
-    const unauthorized = accounts[2];
     const value = 42;
 
     beforeEach(async function () {
@@ -51,7 +48,7 @@ contract('Whitelisted Crowdsale', function(accounts) {
     });
 
     it('should reject payments from not whitelisted (with whichever beneficiaries)', async function () {
-      await crowdsale.send(value).should.be.rejected; // send() goes from accounts[0]
+      await crowdsale.send(value).should.be.rejected; // send() goes from _ (accounts[0])
       await crowdsale.buyTokens(unauthorized, { value: value, from: unauthorized }).should.be.rejected;
       await crowdsale.buyTokens(authorized, { value: value, from: unauthorized }).should.be.rejected;
     });
