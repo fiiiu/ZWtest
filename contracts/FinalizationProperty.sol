@@ -15,6 +15,7 @@ contract FinalizationProperty is CrowdsaleProperty {
     * @dev Must be called after crowdsale ends, to do some extra finalization
     * work. Calls the contract's finalization function.
     */
+    // I could have Crowdsale own the property and require caller to be owner, but seems unnecessary..
    function finalize() public {
      require(!isFinalized);
      Crowdsale caller = Crowdsale(msg.sender);

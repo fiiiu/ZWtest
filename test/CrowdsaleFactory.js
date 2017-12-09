@@ -7,13 +7,14 @@ require('chai')
   .should();
 
 const CrowdsaleFactory = artifacts.require('CrowdsaleFactory');
-const FinalizationProperty = artifacts.require('FinalizationProperty');
+const CrowdsalePropertyFactory = artifacts.require('CrowdsalePropertyFactory');
 
 contract('CrowdsaleFactory', function([_, wallet, authorized]) {
 
   var factory;
+  var propertyFactory;
+  var property;
   const rate = 1;
-  var crowdsale;
 
   var startTime;
   var endTime;
@@ -25,6 +26,7 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
 
   beforeEach(async function() {
     factory = await CrowdsaleFactory.new();
+    propertyFactory = await CrowdsalePropertyFactory.new();
   });
 
   describe('creating crowdsales', function () {
@@ -37,21 +39,22 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
     });
 
     it('should create plain crowdsale', async function () {
-      await factory.createCrowdsale(startTime, endTime, rate, wallet, 0, [], []).should.be.fulfilled;
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, [], []).should.be.fulfilled;
     });
 
     it('should create capped crowdsale', async function () {
-      await factory.createCrowdsale(startTime, endTime, rate, wallet, cap, [], []).should.be.fulfilled;
+      property = await propertyFactory.createCappedProperty(cap);
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, [property.address], []).should.be.fulfilled;
     });
 
     it('should create whitelisted crowdsale', async function () {
-      await factory.createCrowdsale(startTime, endTime, rate, wallet, 0, whitelist, []).should.be.fulfilled;
+      property = await propertyFactory.createWhitelistedProperty(whitelist);
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, [property.address], []).should.be.fulfilled;
     });
 
     it('should create finalizable crowdsale', async function () {
-      var finalization = await FinalizationProperty.new();
-      var properties = [finalization.address];
-      await factory.createCrowdsale(startTime, endTime, rate, wallet, 0, [], properties).should.be.fulfilled;
+      property = await propertyFactory.createFinalizationProperty();
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, [], [property.address]).should.be.fulfilled;
     });
   });
 });
