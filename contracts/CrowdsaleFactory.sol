@@ -13,7 +13,7 @@ contract CrowdsaleFactory {
   using SafeMath for uint256;
 
   event CrowdsaleCreated(address _from, Crowdsale addr);
-  event PropertyAdded(CrowdsaleProperty property);
+  event PropertyAdded(CrowdsaleProperty addr);
 
   function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, ValidationProperty[] _validationProperties, FinalizationProperty[] _finalizationProperties) public returns(Crowdsale) {
 

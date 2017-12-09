@@ -11,7 +11,7 @@ import './FinalizationProperty.sol';
 contract CrowdsalePropertyFactory {
   using SafeMath for uint256;
 
-  event PropertyCreated(CrowdsaleProperty property);
+  event PropertyCreated(CrowdsaleProperty addr);
 
   function createCappedProperty(uint256 _cap) public returns(CappedProperty) {
     require(_cap > 0);

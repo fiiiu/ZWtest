@@ -8,6 +8,9 @@ require('chai')
 
 const CrowdsaleFactory = artifacts.require('CrowdsaleFactory');
 const CrowdsalePropertyFactory = artifacts.require('CrowdsalePropertyFactory');
+const CappedProperty = artifacts.require('CappedProperty');
+const WhitelistedProperty = artifacts.require('WhitelistedProperty');
+const FinalizationProperty = artifacts.require('FinalizationProperty');
 
 contract('CrowdsaleFactory', function([_, wallet, authorized]) {
 
@@ -30,8 +33,6 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
   });
 
   describe('creating crowdsales', function () {
-    var cap = 42;
-    var whitelist = [authorized];
 
     beforeEach(async function () {
       startTime = latestTime() + duration.weeks(1);
@@ -43,17 +44,37 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
     });
 
     it('should create capped crowdsale', async function () {
-      property = await propertyFactory.createCappedProperty(cap);
+      var cap = 42;
+      var propertyCreation = await propertyFactory.createCappedProperty(cap);
+      for (var i = 0; i < propertyCreation.logs.length; i++) {
+        var log = propertyCreation.logs[i];
+        if(log.event == "PropertyCreated") {
+          property = CappedProperty.at(log.args.addr);
+        }
+      }
       await factory.createCrowdsale(startTime, endTime, rate, wallet, [property.address], []).should.be.fulfilled;
     });
 
     it('should create whitelisted crowdsale', async function () {
-      property = await propertyFactory.createWhitelistedProperty(whitelist);
+      var whitelist = [authorized];
+      var propertyCreation = await propertyFactory.createWhitelistedProperty(whitelist);
+      for (var i = 0; i < propertyCreation.logs.length; i++) {
+        var log = propertyCreation.logs[i];
+        if(log.event == "PropertyCreated") {
+          property = WhitelistedProperty.at(log.args.addr);
+        }
+      }
       await factory.createCrowdsale(startTime, endTime, rate, wallet, [property.address], []).should.be.fulfilled;
     });
 
     it('should create finalizable crowdsale', async function () {
-      property = await propertyFactory.createFinalizationProperty();
+      var propertyCreation = await propertyFactory.createFinalizationProperty();
+      for (var i = 0; i < propertyCreation.logs.length; i++) {
+        var log = propertyCreation.logs[i];
+        if(log.event == "PropertyCreated") {
+          property = FinalizationProperty.at(log.args.addr);
+        }
+      }
       await factory.createCrowdsale(startTime, endTime, rate, wallet, [], [property.address]).should.be.fulfilled;
     });
   });

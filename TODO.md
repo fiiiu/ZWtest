@@ -7,8 +7,7 @@
 - Testing: one for factory, one for each contract type? Or a BIG one? *but should check ownership transfer!!*
 
 ## Next
-- PropertyFactory, split abstraction, crfact takes two property vectors.
+- test ownership transfer from Factory!
 - real crowdsale
-- I need to test ownership transfer from Factory!
 
 ## NOW
