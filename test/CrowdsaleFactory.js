@@ -77,5 +77,34 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
       }
       await factory.createCrowdsale(startTime, endTime, rate, wallet, [], [property.address]).should.be.fulfilled;
     });
+
+    it('should create capped whitelisted finalizable crowdsale', async function () {
+      var cappedProperty, whitelistedProperty, finalizationProperty;
+      var cap = 42;
+      var whitelist = [authorized];
+      var cappedPropertyCreation = await propertyFactory.createCappedProperty(cap);
+      for (var i = 0; i < cappedPropertyCreation.logs.length; i++) {
+        var logC = cappedPropertyCreation.logs[i];
+        if(logC.event == "PropertyCreated") {
+          cappedProperty = CappedProperty.at(logC.args.addr);
+        }
+      }
+      var whitelistedPropertyCreation = await propertyFactory.createWhitelistedProperty(whitelist);
+      for (var i = 0; i < whitelistedPropertyCreation.logs.length; i++) {
+        var logW = whitelistedPropertyCreation.logs[i];
+        if(logW.event == "PropertyCreated") {
+          whitelistedProperty = WhitelistedProperty.at(logW.args.addr);
+        }
+      }
+      var finalizationPropertyCreation = await propertyFactory.createFinalizationProperty();
+      for (var i = 0; i < finalizationPropertyCreation.logs.length; i++) {
+        var logF = finalizationPropertyCreation.logs[i];
+        if(logF.event == "PropertyCreated") {
+          finalizationProperty = FinalizationProperty.at(logF.args.addr);
+        }
+      }
+      await factory.createCrowdsale(startTime, endTime, rate, wallet, [cappedProperty.address, whitelistedProperty.address], [finalizationProperty.address]).should.be.fulfilled;
+    });
+
   });
 });
