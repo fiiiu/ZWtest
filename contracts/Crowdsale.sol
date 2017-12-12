@@ -80,7 +80,7 @@ contract Crowdsale is Ownable {
     finalizationProperties.push(property);
   }
 
-  function addToWhitelist(address buyer) public onlyOwner {
+  /*function addToWhitelist(address buyer) public onlyOwner {
     for(uint i = 0; i < validationProperties.length; i++) {
       validationProperties[i].addToWhitelist(buyer);  //Awkward
     }
@@ -92,7 +92,7 @@ contract Crowdsale is Ownable {
       whitelisted = whitelisted || validationProperties[i].isWhitelisted(buyer);  //Awkward
     }
     return whitelisted;
-  }
+  }*/
 
   // creates the token to be sold.
   // override this method to have crowdsale of a specific mintable token.

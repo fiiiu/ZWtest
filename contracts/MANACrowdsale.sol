@@ -9,8 +9,8 @@ import "./Crowdsale.sol";
 import "./ValidationProperty.sol";
 import "./FinalizationProperty.sol";
 
-//import "./CappedProperty.sol";
 import "./WhitelistedProperty.sol";
+import "./MANAFinalizationProperty.sol";
 
 import "./decentraland/MANAContinuousSale.sol";
 import "./decentraland/MANAToken.sol";
@@ -45,7 +45,11 @@ contract MANACrowdsale is Ownable {
 
   event EndRateChange(uint256 rate);
 
-  Crowdsale crowdsale;
+  Crowdsale public crowdsale;
+  WhitelistedProperty whitelistedProperty;
+  MANAFinalizationProperty finalizationProperty;
+
+  MANAToken public token;
 
   function MANACrowdsale (
       uint256 _startTime, //Block, Changed in zeppelin-solidity #350 commit 77dfcb6e23b452031e478f8f3794a9dbe90b7c64
@@ -63,25 +67,30 @@ contract MANACrowdsale is Ownable {
       endRate = _endRate;
       preferentialRate = _preferentialRate;
 
-      continuousSale = createContinuousSaleContract();
-
       CrowdsaleFactory crowdsaleFactory = new CrowdsaleFactory();
       CrowdsalePropertyFactory propertyFactory = new CrowdsalePropertyFactory();
 
       ValidationProperty cappedProperty = propertyFactory.createCappedProperty(86206 ether);
-      WhitelistedProperty whitelistedProperty = propertyFactory.createWhitelistedProperty();
-      FinalizationProperty finalizationProperty = propertyFactory.createFinalizationProperty();
+      whitelistedProperty = propertyFactory.createWhitelistedProperty();
+      //FinalizationProperty finalizationProperty = propertyFactory.createFinalizationProperty();
+
+      finalizationProperty = new MANAFinalizationProperty();
 
       ValidationProperty[] validationProperties;
       validationProperties.push(cappedProperty);
+      validationProperties.push(whitelistedProperty);
 
       FinalizationProperty[] finalizationProperties;
       finalizationProperties.push(finalizationProperty);
 
       crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties, finalizationProperties);
-      whitelistedProperty.transferOwnership(crowdsale);
+      //whitelistedProperty.transferOwnership(crowdsale);
 
-      MANAToken(crowdsale.token()).pause();
+      continuousSale = createContinuousSaleContract();
+
+      token = MANAToken(crowdsale.token());
+      token.pause();
+      //MANAToken(crowdsale.token()).pause();
 
   }
 
@@ -94,12 +103,14 @@ contract MANACrowdsale is Ownable {
   }
 
   function addToWhitelist(address buyer) public onlyOwner {
-      crowdsale.addToWhitelist(buyer);
+      //crowdsale.addToWhitelist(buyer);
+      whitelistedProperty.addToWhitelist(buyer);
   }
 
   function setBuyerRate(address buyer, uint256 rate) onlyOwner public {
       require(rate != 0);
-      require(crowdsale.isWhitelisted(buyer));
+      //require(crowdsale.isWhitelisted(buyer));
+      require(whitelistedProperty.isWhitelisted(buyer));
       require(now < crowdsale.startTime()); //block.number < startBlock);
 
       buyerRate[buyer] = rate;
@@ -132,7 +143,8 @@ contract MANACrowdsale is Ownable {
       }
 
       // whitelisted buyers can purchase at preferential price before crowdsale ends
-      if (crowdsale.isWhitelisted(msg.sender)) {
+      //if (crowdsale.isWhitelisted(msg.sender)) {
+      if (whitelistedProperty.isWhitelisted(msg.sender)) {
           return preferentialRate;
       }
 
@@ -176,16 +188,8 @@ contract MANACrowdsale is Ownable {
       continuousSale.transferOwnership(owner);
   }
 
-
-  /*function finalization() internal {
-      uint256 totalSupply = token.totalSupply();
-      uint256 finalSupply = TOTAL_SHARE.mul(totalSupply).div(CROWDSALE_SHARE);
-
-      // emit tokens for the foundation
-      token.mint(wallet, FOUNDATION_SHARE.mul(finalSupply).div(TOTAL_SHARE));
-
-      // NOTE: cannot call super here because it would finish minting and
-      // the continuous sale would not be able to proceed
-  }*/
+  function finalize() public onlyOwner {
+      finalizationProperty.finalize();
+  }
 
 }
