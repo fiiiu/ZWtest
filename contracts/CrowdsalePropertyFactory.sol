@@ -20,10 +20,7 @@ contract CrowdsalePropertyFactory {
     return property;
   }
 
-  //function createWhitelistedProperty(address[] _whitelisted) public returns(WhitelistedProperty) {
   function createWhitelistedProperty() public returns(WhitelistedProperty) {
-    //require(_whitelisted.length > 0);
-    //WhitelistedProperty property = new WhitelistedProperty(_whitelisted);
     WhitelistedProperty property = new WhitelistedProperty();
     property.transferOwnership(msg.sender);
     PropertyCreated(property);

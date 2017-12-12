@@ -72,7 +72,6 @@ contract MANACrowdsale is Ownable {
 
       ValidationProperty cappedProperty = propertyFactory.createCappedProperty(86206 ether);
       whitelistedProperty = propertyFactory.createWhitelistedProperty();
-      //FinalizationProperty finalizationProperty = propertyFactory.createFinalizationProperty();
 
       finalizationProperty = new MANAFinalizationProperty();
 
@@ -84,13 +83,11 @@ contract MANACrowdsale is Ownable {
       finalizationProperties.push(finalizationProperty);
 
       crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties, finalizationProperties);
-      //whitelistedProperty.transferOwnership(crowdsale);
 
       continuousSale = createContinuousSaleContract();
 
       token = MANAToken(crowdsale.token());
       token.pause();
-      //MANAToken(crowdsale.token()).pause();
 
   }
 
@@ -103,13 +100,11 @@ contract MANACrowdsale is Ownable {
   }
 
   function addToWhitelist(address buyer) public onlyOwner {
-      //crowdsale.addToWhitelist(buyer);
       whitelistedProperty.addToWhitelist(buyer);
   }
 
   function setBuyerRate(address buyer, uint256 rate) onlyOwner public {
       require(rate != 0);
-      //require(crowdsale.isWhitelisted(buyer));
       require(whitelistedProperty.isWhitelisted(buyer));
       require(now < crowdsale.startTime()); //block.number < startBlock);
 
@@ -143,7 +138,6 @@ contract MANACrowdsale is Ownable {
       }
 
       // whitelisted buyers can purchase at preferential price before crowdsale ends
-      //if (crowdsale.isWhitelisted(msg.sender)) {
       if (whitelistedProperty.isWhitelisted(msg.sender)) {
           return preferentialRate;
       }
