@@ -7,7 +7,9 @@
 - Testing: one for factory, one for each contract type? Or a BIG one? *but should check ownership transfer!!*
 
 ## Next
-- test ownership transfer from Factory!
-- real crowdsale
 
 ## NOW
+- Finalization property: inherit? use factory? BOTH?!
+- whitelisted: need to dynamically add users, not implemented.
+
+- explore with final contract owning properties

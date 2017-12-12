@@ -11,4 +11,6 @@ contract ValidationProperty is CrowdsaleProperty {
   //The calls are properly directed to children when called from Crowdsale
   function validPurchase(address beneficiary, uint256 value) public view returns (bool) { return true; }
   function hasEnded() public view returns (bool) { return false; }
+  function addToWhitelist(address buyer) public {} //Awkward
+  function isWhitelisted(address who) public view returns (bool) { return false; } //Awkward
 }

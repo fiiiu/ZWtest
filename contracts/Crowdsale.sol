@@ -62,6 +62,16 @@ contract Crowdsale is Ownable {
     finalizationProperties.length = 0;
   }
 
+  function setRate(uint256 _rate) external onlyOwner {
+    require(_rate > 0);
+    rate = _rate;
+  }
+
+  function setWallet(address _wallet) external onlyOwner {
+    require(_wallet != address(0));
+    wallet = _wallet;
+  }
+
   function addValidationProperty(ValidationProperty property) public onlyOwner {
     validationProperties.push(property);
   }
@@ -70,12 +80,25 @@ contract Crowdsale is Ownable {
     finalizationProperties.push(property);
   }
 
+  function addToWhitelist(address buyer) public onlyOwner {
+    for(uint i = 0; i < validationProperties.length; i++) {
+      validationProperties[i].addToWhitelist(buyer);  //Awkward
+    }
+  }
+
+  function isWhitelisted(address buyer) public view returns(bool) {
+    bool whitelisted = false;
+    for(uint i = 0; i < validationProperties.length; i++) {
+      whitelisted = whitelisted || validationProperties[i].isWhitelisted(buyer);  //Awkward
+    }
+    return whitelisted;
+  }
+
   // creates the token to be sold.
   // override this method to have crowdsale of a specific mintable token.
   function createTokenContract() internal returns (MintableToken) {
     return new MintableToken();
   }
-
 
   // fallback function can be used to buy tokens
   function () external payable {

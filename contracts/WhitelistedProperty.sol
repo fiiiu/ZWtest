@@ -1,19 +1,24 @@
 pragma solidity ^0.4.18;
 
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './ValidationProperty.sol';
 
 // Only whitelisted addresses can be beneficiaries in token purchases.
 // --Alternative: only whitelisted can initiate purchases--
 
-contract WhitelistedProperty is ValidationProperty{
+contract WhitelistedProperty is ValidationProperty, Ownable {
   using SafeMath for uint256;
 
   address[] public whitelist;
 
-  function WhitelistedProperty(address[] _whitelist) public {
+  function WhitelistedProperty() public {
+    whitelist.length = 0;// = _whitelist;
+  }
 
-    whitelist = _whitelist;
+  function addToWhitelist(address buyer) public onlyOwner {
+    require(buyer != address(0));
+    whitelist.push(buyer);
   }
 
   //this one needed internal -> public
