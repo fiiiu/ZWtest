@@ -85,11 +85,11 @@ contract MANACrowdsale is Ownable {
 
       validationProperties.push(cappedProperty);
       validationProperties.push(whitelistedProperty);
-      //finalizationProperties.push(finalizationProperty);
+      finalizationProperties.push(finalizationProperty);
 
       //crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, new ValidationProperty[](0), new FinalizationProperty[](0));//finalizationProperties);
-      crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties);//, new FinalizationProperty[](0));//finalizationProperties);
-      //crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties, new FinalizationProperty[](0));//finalizationProperties);
+      //crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties);//, new FinalizationProperty[](0));//finalizationProperties);
+      crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties, finalizationProperties);
       token = new MANAToken();
       crowdsale.substituteToken(token);
       token.pause();
@@ -109,7 +109,7 @@ contract MANACrowdsale is Ownable {
   function setBuyerRate(address buyer, uint256 rate) onlyOwner public {
       require(rate != 0);
       require(whitelistedProperty.isWhitelisted(buyer));
-      require(now < crowdsale.startTime()); //block.number < startBlock);
+      require(now < crowdsale.startTime());
 
       buyerRate[buyer] = rate;
 
@@ -118,7 +118,7 @@ contract MANACrowdsale is Ownable {
 
   function setInitialRate(uint256 rate) onlyOwner public {
       require(rate != 0);
-      require(now < crowdsale.startTime()); //Changed block.number -> now
+      require(now < crowdsale.startTime());
 
       initialRate = rate;
 
@@ -127,7 +127,7 @@ contract MANACrowdsale is Ownable {
 
   function setEndRate(uint256 rate) onlyOwner public {
       require(rate != 0);
-      require(now < crowdsale.startTime()); //Changed block.number -> now
+      require(now < crowdsale.startTime());
 
       endRate = rate;
 
@@ -205,7 +205,9 @@ contract MANACrowdsale is Ownable {
   }
 
   function finalize() public onlyOwner {
-      //finalizationProperty.finalize();
+      token.transferOwnership(finalizationProperty);
+      crowdsale.finalize();
+      crowdsale.restoreTokenOwnership(); 
   }
 
 }

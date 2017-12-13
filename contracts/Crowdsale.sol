@@ -95,6 +95,10 @@ contract Crowdsale is Ownable {
     token = newToken;
   }
 
+  function restoreTokenOwnership() external onlyOwner {
+    token.transferOwnership(msg.sender);
+  }
+
   // fallback function can be used to buy tokens
   function () external payable {
     buyTokens(msg.sender);

@@ -28,7 +28,7 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
   const expectedFoundationTokens = new BigNumber(6000)
   const expectedTokenSupply = new BigNumber(10000)
 
-  let startTime, endTime
+  let startTime, endTime, afterEndTime
   let crowdsale, token
 
   before(async function () {
@@ -42,6 +42,7 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
     const block = await web3.eth.getBlock('latest');
     startTime = block.timestamp + 10000//latestTime() + duration.weeks(1);
     endTime = startTime + 1000000;//startTime + duration.weeks(1);
+    afterEndTime = endTime + 10;
 
     crowdsale = await MANACrowdsale.new(
       startTime,
@@ -65,9 +66,9 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
     let wallet = await internalCrowdsale.wallet();
     wallet.should.equal(wallet2);
 
-    // const continuousSale = MANAContinuousSale.at(await crowdsale.continuousSale())
-    // wallet = await continuousSale.wallet();
-    // wallet.should.equal(wallet2);
+    const continuousSale = MANAContinuousSale.at(await crowdsale.continuousSale())
+    wallet = await continuousSale.wallet();
+    wallet.should.equal(wallet2);
   })
 
   it('non-owner should not be able to change wallet', async function () {
@@ -75,19 +76,19 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
   })
 
   it('owner should be able to start continuous sale', async function () {
-    //await crowdsale.beginContinuousSale().should.be.rejectedWith(EVMRevert)
+    await crowdsale.beginContinuousSale().should.be.rejectedWith(EVMRevert)
 
-    //await increaseTimeTo(endTime)
-    // await crowdsale.finalize()
+    await increaseTimeTo(afterEndTime)
+    await crowdsale.finalize()
 
-    // const sale = MANAContinuousSale.at(await crowdsale.continuousSale())
-    //
-    // let started = await sale.started()
-    // started.should.equal(false)
+    const sale = MANAContinuousSale.at(await crowdsale.continuousSale())
 
-    // await crowdsale.beginContinuousSale().should.be.fulfilled
-    //
-    // started = await sale.started()
-    // started.should.equal(true)
+    let started = await sale.started()
+    started.should.equal(false)
+
+    await crowdsale.beginContinuousSale().should.be.fulfilled
+
+    started = await sale.started()
+    started.should.equal(true)
   })
 });
