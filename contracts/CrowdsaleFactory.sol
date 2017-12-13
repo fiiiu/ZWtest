@@ -15,9 +15,20 @@ contract CrowdsaleFactory {
   event CrowdsaleCreated(address _from, Crowdsale addr);
   event PropertyAdded(CrowdsaleProperty addr);
 
-  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, ValidationProperty[] _validationProperties, FinalizationProperty[] _finalizationProperties) public returns(Crowdsale) {
 
-    Crowdsale crowdsale = new Crowdsale(_startTime, _endTime, _rate, _wallet);
+  //Plain Crowdsale
+  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet) public returns(Crowdsale) {
+
+    Crowdsale crowdsale = createPlainCrowdsale(_startTime, _endTime, _rate, _wallet);
+    CrowdsaleCreated(msg.sender, crowdsale);
+    crowdsale.transferOwnership(msg.sender);
+    return crowdsale;
+  }
+
+  //Full Crowdsale
+  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, ValidationProperty[] _validationProperties,  FinalizationProperty[] _finalizationProperties) public returns(Crowdsale) {
+
+    Crowdsale crowdsale = createPlainCrowdsale(_startTime, _endTime, _rate, _wallet);
     CrowdsaleCreated(msg.sender, crowdsale);
 
     if(_validationProperties.length > 0){
@@ -35,6 +46,29 @@ contract CrowdsaleFactory {
     }
 
     crowdsale.transferOwnership(msg.sender);
+    return crowdsale;
+  }
+
+  // Just Validation -- Just Finalization clashes, use full with "new ValidationProperty[](0)" as first argument. 
+  function createCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, ValidationProperty[] _validationProperties) public returns(Crowdsale) {
+
+    Crowdsale crowdsale = new Crowdsale(_startTime, _endTime, _rate, _wallet);
+    CrowdsaleCreated(msg.sender, crowdsale);
+
+    if(_validationProperties.length > 0){
+      for(uint i = 0; i < _validationProperties.length; i++) {
+        crowdsale.addValidationProperty(_validationProperties[i]);
+        PropertyAdded(_validationProperties[i]);
+      }
+    }
+
+    crowdsale.transferOwnership(msg.sender);
+    return crowdsale;
+  }
+
+  // Helper
+  function createPlainCrowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet) internal returns(Crowdsale) {
+    Crowdsale crowdsale = new Crowdsale(_startTime, _endTime, _rate, _wallet);
     return crowdsale;
   }
 

@@ -72,6 +72,11 @@ contract Crowdsale is Ownable {
     wallet = _wallet;
   }
 
+  function updateWeiRaised(uint256 _weiRaised) external onlyOwner {
+    require(_weiRaised > 0);
+    weiRaised = _weiRaised;
+  }
+
   function addValidationProperty(ValidationProperty property) public onlyOwner {
     validationProperties.push(property);
   }
@@ -80,24 +85,14 @@ contract Crowdsale is Ownable {
     finalizationProperties.push(property);
   }
 
-  /*function addToWhitelist(address buyer) public onlyOwner {
-    for(uint i = 0; i < validationProperties.length; i++) {
-      validationProperties[i].addToWhitelist(buyer);  //Awkward
-    }
-  }
-
-  function isWhitelisted(address buyer) public view returns(bool) {
-    bool whitelisted = false;
-    for(uint i = 0; i < validationProperties.length; i++) {
-      whitelisted = whitelisted || validationProperties[i].isWhitelisted(buyer);  //Awkward
-    }
-    return whitelisted;
-  }*/
-
   // creates the token to be sold.
   // override this method to have crowdsale of a specific mintable token.
   function createTokenContract() internal returns (MintableToken) {
     return new MintableToken();
+  }
+
+  function substituteToken(MintableToken newToken) external onlyOwner {
+    token = newToken;
   }
 
   // fallback function can be used to buy tokens
@@ -108,7 +103,7 @@ contract Crowdsale is Ownable {
   // low level token purchase function
   function buyTokens(address beneficiary) public payable {
     require(beneficiary != address(0));
-    require(validPurchase()); // no beneficiary, whitelisting purchaser
+    require(validPurchase(beneficiary, msg.value)); // no beneficiary, whitelisting purchaser
 
     uint256 weiAmount = msg.value;
 
@@ -126,17 +121,17 @@ contract Crowdsale is Ownable {
 
   // send ether to the fund collection wallet
   // override to create custom fund forwarding mechanisms
-  function forwardFunds() internal {
+  function forwardFunds() public onlyOwner {
     wallet.transfer(msg.value);
   }
 
   // @return true if the transaction can buy tokens
-  function validPurchase() internal view returns (bool) {
+  function validPurchase(address beneficiary, uint256 value) public view returns (bool) {
     bool withinPeriod = now >= startTime && now <= endTime;
-    bool nonZeroPurchase = msg.value != 0;
+    bool nonZeroPurchase = value != 0;
     bool allConditions = true;
     for(uint i = 0; i < validationProperties.length; i++) {
-      allConditions = allConditions && validationProperties[i].validPurchase(msg.sender, msg.value);
+      allConditions = allConditions && validationProperties[i].validPurchase(beneficiary, value);//msg.sender, msg.value);
     }
     return withinPeriod && nonZeroPurchase && allConditions;
   }

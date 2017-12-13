@@ -7,6 +7,7 @@ import "./CrowdsaleFactory.sol";
 import "./CrowdsalePropertyFactory.sol";
 import "./Crowdsale.sol";
 import "./ValidationProperty.sol";
+import "./CappedProperty.sol";
 import "./FinalizationProperty.sol";
 
 import "./WhitelistedProperty.sol";
@@ -45,9 +46,17 @@ contract MANACrowdsale is Ownable {
 
   event EndRateChange(uint256 rate);
 
+  event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
+
+  //event Log(address addr);
+  //event Pausi(bool paus);
+
   Crowdsale public crowdsale;
+  ValidationProperty cappedProperty;
   WhitelistedProperty whitelistedProperty;
   MANAFinalizationProperty finalizationProperty;
+  ValidationProperty[] validationProperties; //THESE NEED TO BE HERE!! (crashes when inside constructor)
+  FinalizationProperty[] finalizationProperties; //THESE NEED TO BE HERE!! (crashes when inside constructor)
 
   MANAToken public token;
 
@@ -70,33 +79,27 @@ contract MANACrowdsale is Ownable {
       CrowdsaleFactory crowdsaleFactory = new CrowdsaleFactory();
       CrowdsalePropertyFactory propertyFactory = new CrowdsalePropertyFactory();
 
-      ValidationProperty cappedProperty = propertyFactory.createCappedProperty(86206 ether);
+      cappedProperty = propertyFactory.createCappedProperty(86206 ether);
       whitelistedProperty = propertyFactory.createWhitelistedProperty();
-
       finalizationProperty = new MANAFinalizationProperty();
 
-      ValidationProperty[] validationProperties;
       validationProperties.push(cappedProperty);
       validationProperties.push(whitelistedProperty);
+      //finalizationProperties.push(finalizationProperty);
 
-      FinalizationProperty[] finalizationProperties;
-      finalizationProperties.push(finalizationProperty);
-
-      crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties, finalizationProperties);
+      //crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, new ValidationProperty[](0), new FinalizationProperty[](0));//finalizationProperties);
+      crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties);//, new FinalizationProperty[](0));//finalizationProperties);
+      //crowdsale = crowdsaleFactory.createCrowdsale(_startTime, _endTime, initialRate, _wallet, validationProperties, new FinalizationProperty[](0));//finalizationProperties);
+      token = new MANAToken();
+      crowdsale.substituteToken(token);
+      token.pause();
 
       continuousSale = createContinuousSaleContract();
 
-      token = MANAToken(crowdsale.token());
-      token.pause();
-
-  }
-
-  function createTokenContract() internal returns(MintableToken) {
-      return new MANAToken();
   }
 
   function createContinuousSaleContract() internal returns(MANAContinuousSale) {
-      return new MANAContinuousSale(crowdsale.rate(), crowdsale.wallet(), crowdsale.token());
+      return new MANAContinuousSale(crowdsale.rate(), crowdsale.wallet(), token);
   }
 
   function addToWhitelist(address buyer) public onlyOwner {
@@ -152,9 +155,28 @@ contract MANACrowdsale is Ownable {
 
   // low level token purchase function
   function buyTokens(address beneficiary) public payable { //Wasn't public in original! Why?
+      require(beneficiary != 0x0);
+      require(crowdsale.validPurchase(beneficiary, msg.value));
+
+      // I wanted this, but things break if token ownership is transferred to crowdsale (required for minting)
+      //uint256 rate = getRate();
+      //crowdsale.setRate(rate);
+      //crowdsale.buyTokens.value(msg.value)(beneficiary);
+
+      uint256 weiAmount = msg.value;
+      uint256 updatedWeiRaised = crowdsale.weiRaised().add(weiAmount);
+
       uint256 rate = getRate();
-      crowdsale.setRate(rate);
-      crowdsale.buyTokens.value(msg.value)(beneficiary); //only caveat is TokenPurchase event will come out with this.address as purchaser.. does it matter? should pass purchaser as argument? emit event here?
+      // calculate token amount to be created
+      uint256 tokens = weiAmount.mul(rate);
+
+      // update state
+      crowdsale.updateWeiRaised(updatedWeiRaised);
+
+      token.mint(beneficiary, tokens);
+      TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
+
+      crowdsale.forwardFunds();
   }
 
   function setWallet(address _wallet) onlyOwner public {
@@ -165,25 +187,25 @@ contract MANACrowdsale is Ownable {
 
   function unpauseToken() onlyOwner {
       require(crowdsale.finalizationProperties(0).isFinalized());
-      MANAToken(crowdsale.token()).unpause();
+      token.unpause();
   }
 
   function pauseToken() onlyOwner {
       require(crowdsale.finalizationProperties(0).isFinalized());
-      MANAToken(crowdsale.token()).pause();
+      token.pause();
   }
 
   function beginContinuousSale() onlyOwner public {
       require(crowdsale.finalizationProperties(0).isFinalized());
 
-      crowdsale.token().transferOwnership(continuousSale); //Does this work?! how about ownership?
+      token.transferOwnership(continuousSale);
 
       continuousSale.start();
       continuousSale.transferOwnership(owner);
   }
 
   function finalize() public onlyOwner {
-      finalizationProperty.finalize();
+      //finalizationProperty.finalize();
   }
 
 }

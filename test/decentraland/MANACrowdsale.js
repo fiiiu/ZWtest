@@ -36,8 +36,11 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
   });
 
   beforeEach(async function () {
-    startTime = latestTime() + duration.weeks(1);
-    endTime = startTime + duration.weeks(1);
+    //startTime = latestTime() + duration.weeks(1);
+    //endTime = startTime + duration.weeks(1);
+    const block = await web3.eth.getBlock('latest');
+    startTime = block.timestamp + 10000//latestTime() + duration.weeks(1);
+    endTime = startTime + 1000000;//startTime + duration.weeks(1);
 
     crowdsale = await MANACrowdsale.new(
       startTime,
@@ -47,7 +50,7 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
       preferentialRate,
       wallet
     )
-    //token = MANAToken.at(await crowdsale.token())
+    token = MANAToken.at(await crowdsale.token())
   })
 
   it('starts with token paused', async function () {
