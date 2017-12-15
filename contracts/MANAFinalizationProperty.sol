@@ -14,10 +14,7 @@ contract MANAFinalizationProperty is FinalizationProperty {
   uint256 public constant FOUNDATION_SHARE = 60;
 
   function finalization() internal {
-      //MANACrowdsale manaCrowdsale = MANACrowdsale(msg.sender);
-      //Crowdsale crowdsale = manaCrowdsale.crowdsale();
       Crowdsale crowdsale = Crowdsale(msg.sender);
-      //MANAToken token = crowdsale.token();
       uint256 totalSupply = crowdsale.token().totalSupply();
       uint256 finalSupply = TOTAL_SHARE.mul(totalSupply).div(CROWDSALE_SHARE);
 

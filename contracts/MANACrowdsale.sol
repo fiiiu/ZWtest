@@ -22,6 +22,7 @@ contract MANACrowdsale is Ownable {
   uint256 public constant TOTAL_SHARE = 100;
   uint256 public constant CROWDSALE_SHARE = 40;
   uint256 public constant FOUNDATION_SHARE = 60;
+  uint256 public constant CAP = 86206 ether; //ok for this to be public? need to access from tests.
 
   // price at which whitelisted buyers will be able to buy tokens
   uint256 public preferentialRate;
@@ -79,7 +80,7 @@ contract MANACrowdsale is Ownable {
       CrowdsaleFactory crowdsaleFactory = new CrowdsaleFactory();
       CrowdsalePropertyFactory propertyFactory = new CrowdsalePropertyFactory();
 
-      cappedProperty = propertyFactory.createCappedProperty(86206 ether);
+      cappedProperty = propertyFactory.createCappedProperty(CAP);
       whitelistedProperty = new MANAWhitelistedProperty();//propertyFactory.createWhitelistedProperty();
       finalizationProperty = new MANAFinalizationProperty();
 
@@ -157,14 +158,6 @@ contract MANACrowdsale is Ownable {
   function buyTokens(address beneficiary) public payable {
       require(beneficiary != 0x0);
       require(crowdsale.validPurchase(beneficiary, msg.value));
-      //require(crowdsale.validPurchase(beneficiary, msg.value) || (whitelistedProperty.isWhitelisted(beneficiary) && cappedProperty.validPurchase(beneficiary, msg.value) && !crowdsale.hasEnded()));
-
-      /* BoolEv(crowdsale.validPurchase(beneficiary, msg.value));
-      BoolEv(whitelistedProperty.isWhitelisted(beneficiary));
-      cappedProperty.
-      //BoolEv(cappedProperty.validPurchase(beneficiary, msg.value)); */
-      //BoolEv(!crowdsale.hasEnded());
-
 
       uint256 weiAmount = msg.value;
       uint256 updatedWeiRaised = crowdsale.weiRaised().add(weiAmount);
