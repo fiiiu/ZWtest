@@ -9,10 +9,10 @@
 ## Next
 - Finalization property: inherit? use factory? BOTH?! -- now inheriting.
 - explore with final contract owning properties -- now implemented like this.
-- tests CRASHING! out of gas, increasing limits but no dice :(
 
 ## Issues
-- I believe it's a matter of memory/storage with property arrays :(
+- how is it with property arrays that must be OUTSIDE?!
+- Whitelisted can buy CHEAPER, not just BUY! --
 
 ## CHECK
 - RETEST forwardFunds in crowdsale, went to PUBLIC

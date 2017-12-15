@@ -3,9 +3,9 @@ pragma solidity ^0.4.18;
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/ownership/Ownable.sol';
 import './ValidationProperty.sol';
+import './Crowdsale.sol';
 
 // Only whitelisted addresses can be beneficiaries in token purchases.
-// --Alternative: only whitelisted can initiate purchases--
 
 contract WhitelistedProperty is ValidationProperty, Ownable {
   using SafeMath for uint256;

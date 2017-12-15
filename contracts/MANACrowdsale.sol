@@ -10,7 +10,7 @@ import "./ValidationProperty.sol";
 import "./CappedProperty.sol";
 import "./FinalizationProperty.sol";
 
-import "./WhitelistedProperty.sol";
+import "./MANAWhitelistedProperty.sol";
 import "./MANAFinalizationProperty.sol";
 
 import "./decentraland/MANAContinuousSale.sol";
@@ -48,12 +48,12 @@ contract MANACrowdsale is Ownable {
 
   event TokenPurchase(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
-  //event Log(address addr);
-  //event Pausi(bool paus);
+  event BoolEv(bool boolev);
+
 
   Crowdsale public crowdsale;
   ValidationProperty cappedProperty;
-  WhitelistedProperty whitelistedProperty;
+  MANAWhitelistedProperty whitelistedProperty;
   MANAFinalizationProperty finalizationProperty;
   ValidationProperty[] validationProperties; //THESE NEED TO BE HERE!! (crashes when inside constructor)
   FinalizationProperty[] finalizationProperties; //THESE NEED TO BE HERE!! (crashes when inside constructor)
@@ -80,7 +80,7 @@ contract MANACrowdsale is Ownable {
       CrowdsalePropertyFactory propertyFactory = new CrowdsalePropertyFactory();
 
       cappedProperty = propertyFactory.createCappedProperty(86206 ether);
-      whitelistedProperty = propertyFactory.createWhitelistedProperty();
+      whitelistedProperty = new MANAWhitelistedProperty();//propertyFactory.createWhitelistedProperty();
       finalizationProperty = new MANAFinalizationProperty();
 
       validationProperties.push(cappedProperty);
@@ -154,14 +154,17 @@ contract MANACrowdsale is Ownable {
   }
 
   // low level token purchase function
-  function buyTokens(address beneficiary) public payable { //Wasn't public in original! Why?
+  function buyTokens(address beneficiary) public payable {
       require(beneficiary != 0x0);
       require(crowdsale.validPurchase(beneficiary, msg.value));
+      //require(crowdsale.validPurchase(beneficiary, msg.value) || (whitelistedProperty.isWhitelisted(beneficiary) && cappedProperty.validPurchase(beneficiary, msg.value) && !crowdsale.hasEnded()));
 
-      // I wanted this, but things break if token ownership is transferred to crowdsale (required for minting)
-      //uint256 rate = getRate();
-      //crowdsale.setRate(rate);
-      //crowdsale.buyTokens.value(msg.value)(beneficiary);
+      /* BoolEv(crowdsale.validPurchase(beneficiary, msg.value));
+      BoolEv(whitelistedProperty.isWhitelisted(beneficiary));
+      cappedProperty.
+      //BoolEv(cappedProperty.validPurchase(beneficiary, msg.value)); */
+      //BoolEv(!crowdsale.hasEnded());
+
 
       uint256 weiAmount = msg.value;
       uint256 updatedWeiRaised = crowdsale.weiRaised().add(weiAmount);
@@ -207,7 +210,7 @@ contract MANACrowdsale is Ownable {
   function finalize() public onlyOwner {
       token.transferOwnership(finalizationProperty);
       crowdsale.finalize();
-      crowdsale.restoreTokenOwnership(); 
+      crowdsale.restoreTokenOwnership();
   }
 
 }

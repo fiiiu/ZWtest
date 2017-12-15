@@ -130,14 +130,19 @@ contract Crowdsale is Ownable {
   }
 
   // @return true if the transaction can buy tokens
+  // properties can override default crowdsale conditions
   function validPurchase(address beneficiary, uint256 value) public view returns (bool) {
     bool withinPeriod = now >= startTime && now <= endTime;
     bool nonZeroPurchase = value != 0;
     bool allConditions = true;
     for(uint i = 0; i < validationProperties.length; i++) {
-      allConditions = allConditions && validationProperties[i].validPurchase(beneficiary, value);//msg.sender, msg.value);
+      allConditions = allConditions && validationProperties[i].validPurchase(beneficiary, value);
     }
-    return withinPeriod && nonZeroPurchase && allConditions;
+    bool validOverriding = false;
+    for(uint j = 0; j < validationProperties.length; j++) {
+      validOverriding = validOverriding || validationProperties[j].validOverriding(beneficiary, value);
+    }
+    return (withinPeriod && nonZeroPurchase && allConditions) || (validOverriding && allConditions);
   }
 
   // @return true if crowdsale event has ended
