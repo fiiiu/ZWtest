@@ -52,12 +52,14 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
           property = CappedProperty.at(log.args.addr);
         }
       }
+
       await factory.createCrowdsale(startTime, endTime, rate, wallet, [property.address], []).should.be.fulfilled;
+
     });
 
     it('should create whitelisted crowdsale', async function () {
-      var whitelist = [authorized];
-      var propertyCreation = await propertyFactory.createWhitelistedProperty(whitelist);
+      //var whitelist = [authorized];
+      var propertyCreation = await propertyFactory.createWhitelistedProperty();
       for (var i = 0; i < propertyCreation.logs.length; i++) {
         var log = propertyCreation.logs[i];
         if(log.event == "PropertyCreated") {
@@ -89,7 +91,7 @@ contract('CrowdsaleFactory', function([_, wallet, authorized]) {
           cappedProperty = CappedProperty.at(logC.args.addr);
         }
       }
-      var whitelistedPropertyCreation = await propertyFactory.createWhitelistedProperty(whitelist);
+      var whitelistedPropertyCreation = await propertyFactory.createWhitelistedProperty();
       for (var i = 0; i < whitelistedPropertyCreation.logs.length; i++) {
         var logW = whitelistedPropertyCreation.logs[i];
         if(logW.event == "PropertyCreated") {
