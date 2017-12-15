@@ -15,7 +15,7 @@ contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]
   var crowdsaleFactory;
   var propertyFactory;
   const rate = 1;
-  const whitelist = [authorized];
+  //const whitelist = [authorized];
   var startTime;
   var endTime;
   var afterEndTime;
@@ -34,11 +34,12 @@ contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]
     endTime =   startTime + duration.weeks(1);
     afterEndTime = endTime + duration.seconds(1);
 
-    var propertyCreation = await propertyFactory.createWhitelistedProperty(whitelist);
+    var propertyCreation = await propertyFactory.createWhitelistedProperty();
     for (var i = 0; i < propertyCreation.logs.length; i++) {
       var log = propertyCreation.logs[i];
       if(log.event == "PropertyCreated") {
         property = WhitelistedProperty.at(log.args.addr);
+        property.addToWhitelist(authorized);
       }
     }
 
@@ -60,16 +61,17 @@ contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]
       await increaseTimeTo(startTime);
     });
 
-    it('should accept payments from whitelisted (with whichever beneficiaries)', async function () {
+    it('should accept payments to whitelisted (from whichever buyers)', async function () {
       await crowdsale.buyTokens(authorized, { value: value, from: authorized }).should.be.fulfilled;
-      await crowdsale.buyTokens(unauthorized, { value: value, from: authorized }).should.be.fulfilled;
+      await crowdsale.buyTokens(authorized, { value: value, from: unauthorized }).should.be.fulfilled;
     });
 
-    it('should reject payments from not whitelisted (with whichever beneficiaries)', async function () {
+    it('should reject payments to whitelisted (with whichever buyers)', async function () {
       await crowdsale.send(value).should.be.rejected; // send() goes from _ (accounts[0])
       await crowdsale.buyTokens(unauthorized, { value: value, from: unauthorized }).should.be.rejected;
-      await crowdsale.buyTokens(authorized, { value: value, from: unauthorized }).should.be.rejected;
+      await crowdsale.buyTokens(unauthorized, { value: value, from: authorized }).should.be.rejected;
     });
+
 
   });
 });

@@ -260,7 +260,7 @@ contract('MANACrowdsale', function ([_, wallet, wallet2, buyer, purchaser, buyer
     balance.should.not.be.bignumber.equal(value.mul(preferentialRate))
 
     // cannot change rate after crowdsale starts
-    increaseTimeTo(startTime+10000) //I need this to make sure "now" is read right.
+    increaseTimeTo(startTime+20000) 
     await crowdsale.setBuyerRate(buyer, preferentialRateForBuyer).should.be.rejectedWith(EVMRevert)
 
   })

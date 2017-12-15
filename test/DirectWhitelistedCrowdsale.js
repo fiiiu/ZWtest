@@ -9,11 +9,12 @@ require('chai')
 const Crowdsale = artifacts.require('Crowdsale');
 const WhitelistedProperty = artifacts.require('WhitelistedProperty');
 
-contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]) {
+contract('Direct Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]) {
 
   var crowdsale;
+  var property;
   const rate = 1;
-  const whitelist = [authorized];
+  //const whitelist = [authorized];
 
   var startTime;
   var endTime;
@@ -30,8 +31,14 @@ contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]
     afterEndTime = endTime + duration.seconds(1);
 
     crowdsale = await Crowdsale.new(startTime, endTime, rate, wallet);
-    var property = await WhitelistedProperty.new(whitelist);
+    property = await WhitelistedProperty.new();
+    await property.addToWhitelist(authorized);
     await crowdsale.addValidationProperty(property.address);
+    // var isau = await property.isWhitelisted(authorized);
+    // console.log(isau);
+    // var isnau = await property.isWhitelisted(unauthorized);
+    // console.log(isnau);
+
   });
 
 
@@ -42,15 +49,15 @@ contract('Whitelisted Crowdsale', function([_, wallet, authorized, unauthorized]
       await increaseTimeTo(startTime);
     });
 
-    it('should accept payments from whitelisted (with whichever beneficiaries)', async function () {
+    it('should accept payments to whitelisted (from whichever buyers)', async function () {
       await crowdsale.buyTokens(authorized, { value: value, from: authorized }).should.be.fulfilled;
-      await crowdsale.buyTokens(unauthorized, { value: value, from: authorized }).should.be.fulfilled;
+      await crowdsale.buyTokens(authorized, { value: value, from: unauthorized }).should.be.fulfilled;
     });
 
-    it('should reject payments from not whitelisted (with whichever beneficiaries)', async function () {
+    it('should reject payments to whitelisted (with whichever buyers)', async function () {
       await crowdsale.send(value).should.be.rejected; // send() goes from _ (accounts[0])
       await crowdsale.buyTokens(unauthorized, { value: value, from: unauthorized }).should.be.rejected;
-      await crowdsale.buyTokens(authorized, { value: value, from: unauthorized }).should.be.rejected;
+      await crowdsale.buyTokens(unauthorized, { value: value, from: authorized }).should.be.rejected;
     });
 
   });

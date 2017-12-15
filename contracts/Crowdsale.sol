@@ -107,7 +107,7 @@ contract Crowdsale is Ownable {
   // low level token purchase function
   function buyTokens(address beneficiary) public payable {
     require(beneficiary != address(0));
-    require(validPurchase(beneficiary, msg.value)); // no beneficiary, whitelisting purchaser
+    require(validPurchase(beneficiary, msg.value));
 
     uint256 weiAmount = msg.value;
 
@@ -120,12 +120,16 @@ contract Crowdsale is Ownable {
     token.mint(beneficiary, tokens);
     TokenPurchase(msg.sender, beneficiary, weiAmount, tokens);
 
-    forwardFunds();
+    internalForwardFunds();
   }
 
   // send ether to the fund collection wallet
   // override to create custom fund forwarding mechanisms
   function forwardFunds() public onlyOwner {
+    wallet.transfer(msg.value);
+  }
+
+  function internalForwardFunds() internal {
     wallet.transfer(msg.value);
   }
 

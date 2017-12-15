@@ -12,6 +12,8 @@ contract WhitelistedProperty is ValidationProperty, Ownable {
 
   address[] public whitelist;
 
+  event AddressWhitelisted(address whitelisted);
+
   function WhitelistedProperty() public {
     whitelist.length = 0;// = _whitelist;
   }
@@ -19,6 +21,7 @@ contract WhitelistedProperty is ValidationProperty, Ownable {
   function addToWhitelist(address buyer) public onlyOwner {
     require(buyer != address(0));
     whitelist.push(buyer);
+    AddressWhitelisted(buyer);
   }
 
   //this one needed internal -> public
